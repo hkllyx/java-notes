@@ -2,7 +2,7 @@
 
 ## 红黑树
 
-[红黑树思维导图](../../resource/img/001.png)
+[红黑树思维导图](../../../resource/xmind/Red-Black%20Tree.xmind)
 
 ## `TreeMap`
 
