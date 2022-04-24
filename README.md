@@ -23,7 +23,7 @@
 - [注解（APT待补充）](Java/Java入门/注解.md)
 - 容器
     - [一般容器](Java/Java入门/容器/一般容器.md)
-    - [`ArrayList` & `LinkedList` & ArrayDeque](Java/Java入门/容器/ArrayList%20&%20LinkedList%20&%20ArrayDeque.md)
+    - [`ArrayList` & `LinkedList` & `ArrayDeque`](Java/Java入门/容器/ArrayList%20&%20LinkedList%20&%20ArrayDeque.md)
     - [`HashMap` & `HashSet` & `LinkedHashMap`](Java/Java入门/容器/HashMap%20&%20HashSet%20&%20LinkedHashMap.md)
     - [`TreeMap` & `TreeSet`](Java/Java入门/容器/TreeMap%20&%20TreeSet.md)
     - [`PriorityQueue`](Java/Java入门/容器/PriorityQueue.md)
