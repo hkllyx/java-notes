@@ -18,7 +18,7 @@
 mov    0xc(%rdx),%esi     ;*getfield a
 inc    %esi
 mov    %esi,0xc(%rdx)
-lock addl $0x0,(%rsp)     ;*putfield a
+lock addl$0x0,(%rsp)     ;*putfield a
 ```
 
 最后一条指令就使用了一个`lock`开头。
@@ -96,7 +96,7 @@ volatile boolean isInterrupted = false;
 
 `volatile`关键字本身就包含了禁止指令重排序的语义，JMM针对编译器制定`volatile`重排序规则表：
 
-![volatile禁止重排序.png](../../../resource/img/volatile禁止重排序.png)
+![volatile禁止重排序.png](../../../resource/img/Java基础/volatile禁止重排序.png)
 
 - 当第二个操作是`volatile`写时，不管第一个操作是什么，都不能重排序。这个规则确保`volatile`写之前的操作不会被编译器重排序到`volatile`写之后。
 - 当第一个操作是`volatile`读时，不管第二个操作是什么，都不能重排序。这个规则确保`volatile`读之后的操作不会被编译器重排序到`volatile`读之前。
@@ -215,7 +215,7 @@ public class VolatileDemo2 {
 mov    0xc(%rdx),%esi     ;*getfield a // Load，获取a的值
 inc    %esi                            // Increment，自增运算
 mov    %esi,0xc(%rdx)                  // Store，存值
-lock addl $0x0,(%rsp)     ;*putfield a // StoreLoad Barrier，内存屏障
+lock addl$0x0,(%rsp)     ;*putfield a // StoreLoad Barrier，内存屏障
 ```
 
 最后一步是内存屏障，而`volatile`的作用就是加上这个内存屏障，保证增加后的值及时刷新到内存当中，使这个自增操作其他线程可见。

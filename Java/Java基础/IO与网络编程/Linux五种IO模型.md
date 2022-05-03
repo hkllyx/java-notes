@@ -94,7 +94,7 @@ IO有内存IO、网络IO和磁盘IO三种，通常我们说的IO指的是后两�
 
 阻塞时不能处理别的IO。调用应用程序处于一种不再消费CPU而只是简单等待响应的状态，因此从处理的角度来看，这是非常有效的。
 
-![阻塞IO模型](../../../resource/img/阻塞IO模型.png))
+![阻塞IO模型](../../../resource/img/Java基础/阻塞IO模型.png))
 
 典型应用：Java BIO、阻塞socket
 
@@ -112,7 +112,7 @@ IO有内存IO、网络IO和磁盘IO三种，通常我们说的IO指的是后两�
 
 非阻塞IO模型就是这样的方式。在这种模型中，设备是以非阻塞的形式打开的，这意味着 内核数据为准备好时，内核立即对进程的`recvfrom`系统调用返回一个错误代码（`EAGAIN`或`EWOULDBLOCK`），说明这个命令不能立即满足。然后进程可以继续执行一些其他任务。此后进程不断地发起`recvfrom`系统调用（轮询`polling`），直至内核中数据准备好。数据准备好之后，内核拷贝数据到进程，最后进程数据处理。需要注意，拷贝数据整个过程，进程仍然是属于阻塞的状态。可以发现，非阻塞IO`将大的整片时间的`recvfrom`造成的阻塞分成多个小的阻塞，在这些小阻塞之间进行可以继续执行。在Lunix下，可以通过设置socket使其变为non-blocking。
 
-![非阻塞IO模型](../../../resource/img/非阻塞IO模型.png)
+![非阻塞IO模型](../../../resource/img/Java基础/非阻塞IO模型.png)
 
 典型应用：socket是非阻塞的方式（设置为non-blocking后）
 
@@ -136,7 +136,7 @@ IO复用模型需要使用两个系统调用（`select`和`recvfrom`），而阻
 
 在IO复用模型中，实际中对于每一个socket一般都设置成为non-blocking，但是，如图所示，整个用户的进程其实是一直被阻塞的。只不过进程是被`select`阻塞，而不是被socket IO阻塞。
 
-![IO复用模型](../../../resource/img/IO复用模型.png)
+![IO复用模型](../../../resource/img/Java基础/IO复用模型.png)
 
 典型应用：`select`、`poll`、`epoll`系统调用、Java NIO
 
@@ -156,7 +156,7 @@ Linux中IO复用的实现方式主要有：`select`、`poll`和`epoll`：
 
 首先我们允许Socket进行信号驱动IO，并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个`SIGIO`信号，可以在信号处理函数中调用IO操作函数处理数据。过程如下图所示：
 
-![信号驱动IO模型](../../../resource/img/信号驱动IO模型.png)
+![信号驱动IO模型](../../../resource/img/Java基础/信号驱动IO模型.png)
 
 特点：回调机制，实现、开发应用难度大
 
@@ -166,7 +166,7 @@ Linux中IO复用的实现方式主要有：`select`、`poll`和`epoll`：
 
 如果在数据准备阶段和数据拷贝阶段，用户进程都能不被阻塞，将数据拷贝变成被动的。也就是进程只是发送一个读取信号给内核，而内核在获取信号后立即返回，此时用户进行继续执行，而等待内核等待数据准备和将数据拷贝到用户空间都由内核自主完成，待完成后内核再通知用户进程，那么这就是异步IO模型。
 
-![异步IO模型](../../../resource/img/异步IO模型.png)
+![异步IO模型](../../../resource/img/Java基础/异步IO模型.png)
 
 典型应用：Java 7 AIO、高性能服务器应用
 
@@ -179,7 +179,7 @@ Linux中IO复用的实现方式主要有：`select`、`poll`和`epoll`：
 
 ### 总结与对比
 
-![五种IO模型对比](../../../resource/img/五种IO模型对比.png)
+![五种IO模型对比](../../../resource/img/Java基础/五种IO模型对比.png)
 
 - 同步：第二阶段主动执行`recvfrom`系统调用
     - 阻塞：第一阶段时阻塞
@@ -193,6 +193,6 @@ Linux中IO复用的实现方式主要有：`select`、`poll`和`epoll`：
 
 ## Linux IO模型和Java IO
 
-- 阻塞IO模型 $\rightarrow$ Java传统IO（BIO）
-- IO复用模型 $\rightarrow$ Java 4新IO（NIO）
-- 异步IO模型 $\rightarrow$ Java 7异步IO（NIO 2，AIO）
+- 阻塞IO模型$\rightarrow$Java传统IO（BIO）
+- IO复用模型$\rightarrow$Java 4新IO（NIO）
+- 异步IO模型$\rightarrow$Java 7异步IO（NIO 2，AIO）

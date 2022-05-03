@@ -732,10 +732,10 @@ public interface SortedSet<E> extends Set<E> {
     /** 返回大于fromElement的子集 */
     SortedSet<E> tailSet(E fromElement);
 
-    /** 返回当前集合中的第一个(最低的)元素 */
+    /** 返回当前集合中的第一个（最低的）元素 */
     E first();
 
-    /** 返回当前集合中的最后一个(最高的)元素 */
+    /** 返回当前集合中的最后一个（最高的）元素 */
     E last();
 
     ...
@@ -758,10 +758,10 @@ public interface NavigableSet<E> extends SortedSet<E> {
     /** 返回集合中严格大于给定元素的最小元素，如果没有这样的元素，则返回null */
     E higher(E e);
 
-    /** 返回并删除第一个(最低的)元素，如果该集合为空，则返回null。 */
+    /** 返回并删除第一个（最低的）元素，如果该集合为空，则返回null。 */
     E pollFirst();
 
-    /** 返回并删除最后(最高)的元素，如果该集合为空则返回null */
+    /** 返回并删除最后（最高）的元素，如果该集合为空则返回null */
     E pollLast();
 
     Iterator<E> iterator();

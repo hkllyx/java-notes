@@ -64,7 +64,7 @@ PUNSUBSCRIBE [pattern [pattern ...]]
 ```
 PUBSUB subcommand [argument [argument ...]]
 ```
-- 是自省命令，能够检测 PUB/SUB 子系统的状态。它由分别详细描述的子命令组成
+- 是自省命令，能够检测PUB/SUB子系统的状态。它由分别详细描述的子命令组成
 
 ### PUBSUB CHANNELS
 
@@ -72,7 +72,7 @@ PUBSUB subcommand [argument [argument ...]]
 PUBSUB CHANNELS [pattern]
 ```
 - 列出当前活跃的信道，活跃是指信道含有一个或多个订阅者 (不包括从模式接收订阅的客户端)
-- 如果 pattern 未提供，所有的信道都被列出，否则只列出匹配上指定全局 - 类型模式的信道被列出.
+- 如果pattern未提供，所有的信道都被列出，否则只列出匹配上指定全局 - 类型模式的信道被列出.
 
 ### PUBSUB NUMSUB
 
@@ -87,5 +87,5 @@ PUBSUB NUMSUB [channel-1 ... channel-N]
 ```
 PUBSUB NUMPAT
 ```
-- 返回订阅模式的数量 (使用命令 PSUBSCRIBE 实现)
+- 返回订阅模式的数量 (使用命令PSUBSCRIBE实现)
 - 注意，这个命令返回的不是订阅模式的客户端的数量，而是客户端订阅的所有模式的数量总和

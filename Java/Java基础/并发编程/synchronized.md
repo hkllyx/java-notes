@@ -24,7 +24,7 @@ Java虚拟机中的同步（Synchronization）基于进入和退出管程/监视
 
 ### 回顾对象的MarkWord
 
-![ObjectMarkWord](../../../resource/img/ObjectMarkWord.png)
+![ObjectMarkWord](../../../resource/img/Java基础/ObjectMarkWord.png)
 
 详见JVM笔记中的《HotSpot虚拟机对象探秘》篇。
 
@@ -60,7 +60,7 @@ ObjectMonitor() {
 
 `ObjectMonitor`队列之间的关系转换可以用下图表示：
 
-![ObjectMonitor队列之间的关系转换](../../../resource/img/ObjectMonitor队列之间的关系转换.png)
+![ObjectMonitor队列之间的关系转换](../../../resource/img/Java基础/ObjectMonitor队列之间的关系转换.png)
 
 ### `Object.wait/notify/notifyAll`
 
@@ -170,7 +170,7 @@ public class SyncDemo {
         demo.increase();
     }
 
-    public `synchronized` void increase() {
+    public`synchronized`void increase() {
         i++;
     }
 }
@@ -179,7 +179,7 @@ public class SyncDemo {
 部分反编译后代码：
 
 ```class
-public `synchronized` void increase();
+public`synchronized`void increase();
     descriptor: ()V
     flags: ACC_PUBLIC, ACC_SYNCHRONIZED
     Code:
@@ -203,7 +203,7 @@ public `synchronized` void increase();
 
 锁的状态总共有四种，无锁状态、偏向锁、轻量级锁和重量级锁。随着锁的竞争，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁，但是锁的升级是单向的，也就是说只能从低到高升级，不会出现锁的降级。
 
-![锁状态升级](../../../resource/img/锁状态升级.png)
+![锁状态升级](../../../resource/img/Java基础/锁状态升级.png)
 
 ### 无锁状态
 
@@ -256,7 +256,7 @@ slow_enter(obj, lock, THREAD) ;
 
 获取偏向锁的`revoke_and_rebias`方法流程图表示：
 
-![revoke_and_rebias](../../../resource/img/revoke_and_rebias.png)
+![revoke_and_rebias](../../../resource/img/Java基础/revoke_and_rebias.png)
 
 当开启了偏向锁时，新建对象的Mark Word默认是是无锁可偏向的，当一个线程对其加锁时，先检查其是否符合无锁且可偏向条件。
 
@@ -268,7 +268,7 @@ slow_enter(obj, lock, THREAD) ;
 
 #### 偏向锁的撤销
 
-![偏向锁的撤销](../../../resource/img/偏向锁的撤销.png)
+![偏向锁的撤销](../../../resource/img/Java基础/偏向锁的撤销.png)
 
 偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，线程不会主动去释放偏向锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，判断锁对象是否处于被锁定状态，撤销偏向锁后恢复到未锁定（标志位为“01”）或轻量级锁（标志位为“00”）的状态。
 
@@ -319,11 +319,11 @@ void ObjectSynchronizer::slow_enter(Handle obj, BasicLock* lock, TRAPS) {
 }
 ```
 
-![slow_enter](../../../resource/img/slow_enter.png)
+![slow_enter](../../../resource/img/Java基础/slow_enter.png)
 
 线程的锁记录和对象Mark Word数据的交互
 
-![线程的锁记录和对象MarkWord数据的交互](../../../resource/img/线程的锁记录和对象MarkWord数据的交互.png)
+![线程的锁记录和对象MarkWord数据的交互](../../../resource/img/Java基础/线程的锁记录和对象MarkWord数据的交互.png)
 
 在代码进入同步块的时候，如果此同步对象没有被锁定（锁标志位为“01”状态），JVM首先将在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，用于存储锁对象目前的Mark Word的拷贝（官方把这份拷贝加了一个Displaced前缀，即Displaced Mark Word）。
 
@@ -367,7 +367,7 @@ void ObjectSynchronizer::fast_exit(oop object, BasicLock* lock, TRAPS) {
 }
 ```
 
-![轻量级锁的释放](../../../resource/img/轻量级锁的释放.png)
+![轻量级锁的释放](../../../resource/img/Java基础/轻量级锁的释放.png)
 
 #### 轻量级锁膨胀
 
@@ -432,7 +432,7 @@ ObjectMonitor * ATTR ObjectSynchronizer::inflate (Thread * Self, oop object) {
 }
 ```
 
-![轻量级锁膨胀](../../../resource/img/轻量级锁膨胀.png)
+![轻量级锁膨胀](../../../resource/img/Java基础/轻量级锁膨胀.png)
 
 **为什么在撤销轻量级锁的时候会有失败的可能？**
 假设thread1拥有了轻量级锁，Mark Word指向thread1栈帧，thread2请求锁的时候，就会膨胀初始化`ObjectMonitor`对象，将Mark Word更新为指向`ObjectMonitor`的指针，那么在thread1退出的时候，CAS操作会失败，因为Mark Word不再指向thread1的栈帧，这个时候thread1自旋等待`infalte`完毕，执行重量级锁的退出操作。
@@ -579,11 +579,11 @@ int ObjectMonitor::TryLock (Thread * Self) {
 }
 ```
 
-![重量级锁的获取](../../../resource/img/重量级锁的获取.png)
+![重量级锁的获取](../../../resource/img/Java基础/重量级锁的获取.png)
 
 #### 重量级锁的释放
 
-![重量级锁的释放](../../../resource/img/重量级锁的释放.png)
+![重量级锁的释放](../../../resource/img/Java基础/重量级锁的释放.png)
 
 ### 自旋锁
 
@@ -643,7 +643,7 @@ public String concat(String s1, String s2, String s3) {
 
 引入偏向锁的目的：在只有单线程执行情况下，尽量减少不必要的轻量级锁执行路径，轻量级锁的获取及释放依赖多次CAS原子指令，而偏向锁只依赖一次CAS原子指令置换Thread ID，之后只要判断线程ID为当前线程即可，偏向锁使用了一种等到竞争出现才释放锁的机制，消除偏向锁的开销还是蛮大的。如果同步资源或代码一直都是多线程访问的，那么消除偏向锁这一步骤对你来说就是多余的，可以通过`-XX:-UseBiasedLocking=false`来关闭。需要注意的是Java15开始，偏向锁被废除了。
 
-引入轻量级锁的目的：在多线程交替执行同步块的情况下，尽量避免重量级锁引起的性能消耗(用户态和核心态转换)，但是如果多个线程在同一时刻进入临界区，会导致轻量级锁膨胀升级重量级锁，所以轻量级锁的出现并非是要替代重量级锁。
+引入轻量级锁的目的：在多线程交替执行同步块的情况下，尽量避免重量级锁引起的性能消耗（用户态和核心态转换），但是如果多个线程在同一时刻进入临界区，会导致轻量级锁膨胀升级重量级锁，所以轻量级锁的出现并非是要替代重量级锁。
 
 重入：对于不同级别的锁都有重入策略
 
@@ -657,7 +657,7 @@ public String concat(String s1, String s2, String s3) {
 | 轻量级锁 | 竞争的线程不会阻塞，提高了相应速度                                     | 如果始终得不到竞争线程，使用自旋会消耗较多CPU | 追求响应速度，同步块执行速度快     |
 | 重量级锁 | 线程竞争不使用自旋，不会消耗CPU                                       | 线程阻塞，响应速度慢                           | 之前吞吐量，同步块执行速度较慢     |
 
-![synchronized四种锁总结](../../../resource/img/synchronized四种锁总结.jpg)
+![synchronized四种锁总结](../../../resource/img/Java基础/synchronized四种锁总结.jpg)
 
 [从jvm源码看`synchronized`](https://www.cnblogs.com/kundeg/p/8422557.html)
 [JVM源码分析之`synchronized`实现](https://www.jianshu.com/p/c5058b6fe8e5)

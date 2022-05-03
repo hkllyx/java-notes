@@ -12,11 +12,11 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
 
     /**
      * 队列中第一个存活（没有被删除）的结点，能O(1)效率达到
-     * 不变性(invariants)
+     * 不变性（invariants）
      *     1. 所以存活的结点都能由head通过succ()抵达
      *     2. head != null
      *     3. (tmp = head).next != tmp || tmp != head (其实就是head.next != head)
-     * 可变性(Non-invariants)
+     * 可变性（Non-invariants）
      *     1. head.item可能是null, 也可能不是null
      *     2. 允许tail滞后于head, 也就是调用succ()方法, 从head不可达tail
      */
@@ -24,10 +24,10 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
 
     /**
      * 队列中最后一个元素，唯一一个Node.next = null的结点，能O(1)效率达到
-     * 不变性(invariants)
-     *     1. tail节点通过succ()方法一定到达队列中的最后一个节点(node.next = null)
+     * 不变性（invariants）
+     *     1. tail节点通过succ()方法一定到达队列中的最后一个节点（node.next = null）
      *     2. tail != null
-     * 可变性(Non-invariants)
+     * 可变性（Non-invariants）
      *     1. tail.item可能是null, 也可能不是null
      *     2. 允许tail滞后于head, 也就是调用succ()方法,从head不可达tail
      *     3. tail.next可能指向tail

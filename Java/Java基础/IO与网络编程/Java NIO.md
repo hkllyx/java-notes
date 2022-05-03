@@ -97,8 +97,8 @@ ByteBuffer bf3 = ByteBuffer.wrap(new byte[10], 0, 10);
 ### 缓冲区状态变量
 
 - `capacity`：缓冲区的容量。非负且不可变。
-- `limit`：第一个不该读/写的的元素的位置。`limit` $\leq$ `capacity`。
-- `position`：表示当前位置，是当前或者是下一个读/写的起始位置。非负且`position` $\leq$ `limit`。
+- `limit`：第一个不该读/写的的元素的位置。`limit`$\leq$`capacity`。
+- `position`：表示当前位置，是当前或者是下一个读/写的起始位置。非负且`position`$\leq$`limit`。
 
 ### 数据传输
 
@@ -114,7 +114,7 @@ ByteBuffer bf3 = ByteBuffer.wrap(new byte[10], 0, 10);
 
 如果标记被定义，那么当`position`或`limit`调整到比标记小的值时，它将被丢弃。如果没有定义标记，则调用`reset()`将引发`InvalidMarkException`。
 
-**`0` $\leq$ `mark` $\leq$ `position` $\leq$ `limit` $\leq$ `capacity`**
+**`0`$\leq$`mark`$\leq$`position`$\leq$`limit`$\leq$`capacity`**
 
 ### 快速操作方法及调用链
 
@@ -251,8 +251,8 @@ int interestSet = SelectionKey.OP_READ | SelectionKey.OP_WRITE;
 
 ### TCP
 
-![NIO TCP通信模型](../../../resource/img/NIO%20TCP通信模型.png)
+![NIO TCP通信模型](../../../resource/img/Java基础/NIO%20TCP通信模型.png)
 
 ### UDP
 
-![NIO UDP通信模型](../../../resource/img/NIO%20UDP通信模型.png)
+![NIO UDP通信模型](../../../resource/img/Java基础/NIO%20UDP通信模型.png)

@@ -39,7 +39,7 @@
 
 程序一般不会直接去使用内核线程，而是去使用内核线程的一种高级接口——轻量级进程（Light Weight Process，LWP），**轻量级进程就是我们通常意义上所讲的线程**，由于每个轻量级进程都由一个内核线程支持，因此只有先支持内核线程，才能有轻量级进程。这种轻量级进程与内核线程之间1：1的关系称为一对一的线程模型。
 
-![一对一的线程模型](../../../resource/img/一对一的线程模型.png)
+![一对一的线程模型](../../../resource/img/Java基础/一对一的线程模型.png)
 
 优势：由于内核线程的支持，每个轻量级进程都成为一个独立的调度单元，即使有一个轻量级进程在系统调用中阻塞了，也不会影响整个进程继续工作。
 
@@ -51,7 +51,7 @@
 
 而狭义上的用户线程指的是完全建立在用户空间的线程库上，系统内核不能感知到线程存在的实现。用户线程的建立、同步、销毁和调度完全在用户态中完成，不需要内核的帮助。如果程序实现得当，这种线程不需要切换到内核态，因此操作可以是非常快速且低消耗的，也可以支持规模更大的线程数量，部分高性能数据库中的多线程就是由用户线程实现的。这种进程与用户线程之间1：N的关系称为一对多的线程模型。
 
-![一对多的线程模型](../../../resource/img/一对多的线程模型.png)
+![一对多的线程模型](../../../resource/img/Java基础/一对多的线程模型.png)
 
 优势：使用用户线程的优势在于不需要系统内核支援。
 
@@ -63,7 +63,7 @@
 
 用户线程还是完全建立在用户空间中，因此用户线程的创建、切换、析构等操作依然廉价，并且可以支持大规模的用户线程并发。而操作系统提供支持的轻量级进程则作为用户线程和内核线程之间的桥梁，这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级线程来完成，大大降低了进程被阻塞的风险。在这种混合模式中，用户线程与轻量级进程的数量比是不定的，是M:N的关系，如图下图所示，这种就是多对多的线程模型。
 
-![多对多的线程模型](../../../resource/img/多对多的线程模型.png)
+![多对多的线程模型](../../../resource/img/Java基础/多对多的线程模型.png)
 
 许多Unix系列的操作系统，如Solaris、HP-UX等都提供了M:N的线程模型实现。
 
@@ -136,7 +136,7 @@ Java语言定义了6种线程状态，在任意一个时间点中，一个线程
    |   LockSupport.parkNanos()    |       LockSupport.unpark(Thread thread)       |
 6. **Terminated**：终止。线程已经执行结束。
 
-![Java线程6种状态的转换](../../../resource/img/Java线程6种状态的转换.drawio.svg)
+![Java线程6种状态的转换](../../../resource/img/Java基础/Java线程6种状态的转换.drawio.svg)
 
 ## 使用Java线程
 
@@ -155,7 +155,7 @@ Java语言定义了6种线程状态，在任意一个时间点中，一个线程
 ```java
 @FunctionalInterface
 public interface Runnable{
- public abstract void run();
+public abstract void run();
 }
 ```
 
@@ -166,7 +166,7 @@ public interface Runnable{
 ```java
 @FunctionalInterface
 public interface Callable<V> {
- V call()throws Exception;
+V call()throws Exception;
 }
 ```
 
@@ -312,7 +312,7 @@ public static void sleep(long millis,int nanos)throws InterruptedException{
  */
 public static boolean interrupted() {
     // 本地方法
- return currentThread().isInterrupted(true);
+return currentThread().isInterrupted(true);
 }
 ```
 

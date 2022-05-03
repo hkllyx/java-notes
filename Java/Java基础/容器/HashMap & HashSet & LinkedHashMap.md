@@ -669,7 +669,7 @@ public HashSet(int initialCapacity) {
 }
 
 // 默认访问权限构造方法，用户一般无法调动
-// dummy用于和其他参数列表为(int, float)的构造方法区分。没有实际意义
+// dummy用于和其他参数列表为（int, float）的构造方法区分。没有实际意义
 HashSet(int initialCapacity, float loadFactor, boolean dummy) {
     map = new LinkedHashMap<>(initialCapacity, loadFactor);
 }

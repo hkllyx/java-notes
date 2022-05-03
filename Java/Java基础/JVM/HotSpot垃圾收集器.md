@@ -8,7 +8,7 @@
 
 Serial（串行）收集器收集器是最基本、历史最悠久的垃圾收集器。看名字就知道这个收集器是一个单线程收集器。它的“单线程”的意义不仅仅意味着它只会使用一条垃圾收集线程去完成垃圾收集工作，更重要的是它在进行垃圾收集工作的时候必须暂停其他所有的工作线程（"Stop The World"），直到它收集结束。
 
-![Serial](../../../resource/img/Serial.png)
+![Serial](../../../resource/img/Java基础/Serial.png)
 
 由于Serial收集器只使用一条GC线程，避免了线程切换的开销，从而简单高效。
 
@@ -20,7 +20,7 @@ Serial（串行）收集器收集器是最基本、历史最悠久的垃圾收�
 
 ParNew是Serial的多线程版本。由多条GC线程并行地进行垃圾清理。但清理过程依然需要Stop The World。
 
-![ParNew](../../../resource/img/ParNew.png)
+![ParNew](../../../resource/img/Java基础/ParNew.png)
 
 ParNew追求“低停顿时间”，与Serial唯一区别就是使用了多线程进行垃圾收集，在多CPU环境下性能比Serial会有一定程度的提升；但线程切换需要额外的开销，因此在单CPU环境中表现不如Serial。
 
@@ -81,7 +81,7 @@ CMS（Concurrent Mark Sweep）收集器是HotSpot虚拟机第一款真正意义�
     - 只使用一条GC线程，与用户线程并发执行，清除刚才标记的对象。
     - 速度很慢。
 
-![CMS](../../../resource/img/CMS.png)
+![CMS](../../../resource/img/Java基础/CMS.png)
 
 CMS是一款优秀的收集器,主要优点：并发收集、低停顿。
 
@@ -120,7 +120,7 @@ G1没有新生代和老年代的概念，而是将堆划分为一块块独立的
 3. 最终标记：Stop The World，使用多条标记线程并发执行。
 4. 筛选回收：首先对各个Region的回收价值和成本进行排序，根据用户所期望的GC停顿时间来制定回收计划。然后回收废弃对象，此时也要Stop The World，并使用多条筛选回收线程并发执行。
 
-![Garbage-First](../../../resource/img/Garbage-First.png)
+![Garbage-First](../../../resource/img/Java基础/Garbage-First.png)
 
 G1收集器在后台维护了一个优先列表，每次根据允许的收集时间，优先选择回收价值最大的Region(这也就是它的名字Garbage-First的由来)。这种使用Region划分内存空间以及有优先级的区域回收方式，保证了G1收集器在有限时间内可以尽可能高的收集效率（把内存化整为零）。
 
@@ -128,7 +128,7 @@ G1收集器在后台维护了一个优先列表，每次根据允许的收集时
 
 HotSpot虚拟机提供了多种垃圾收集器，每种收集器都有各自的特点，虽然我们要对各个收集器进行比较，但并非为了挑选出一个最好的收集器。我们选择的只是对具体应用最合适的收集器。
 
-![HotSpot垃圾收集器](../../../resource/img/HotSpot垃圾收集器.png)
+![HotSpot垃圾收集器](../../../resource/img/Java基础/HotSpot垃圾收集器.png)
 
 - 连线代表可以搭配使用
 
