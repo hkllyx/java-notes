@@ -22,7 +22,7 @@ File extends Object implements Serializable, Comparable<File>
 
 #### `FileFilter` & `FilenameFilter`
 
-用于过滤文件的接口。二者均是函数式接口,不同的是内部`accept()`方法接受的参数不同。
+用于过滤文件的接口。二者均是函数式接口，不同的是内部`accept()`方法接受的参数不同。
 
 `FileFilter`接受一个`File`对象。`FilenameFilter`接受一个`File`对象表示目录，然后接受一个`String`对象表示文件名。
 
@@ -34,7 +34,7 @@ FileDescriptor extends Object
 
 文件描述符类的实例用作表示打开的文件、开放套接字或其他字节源或信宿的底层机器特定结构的不透明句柄。主要实际用途是创建一个`FileInputStream`或`FileOutputStream`。
 
-`FileDescriptor`表示文件时，可以将`FileDescriptor`看成是该文件。但是，不能直接通过 `FileDescriptor`对该文件进行操作，需要新创建`FileDescriptor`对应的`FileInputStream`或`FileOutputStream`，再对文件进行操作。
+`FileDescriptor`表示文件时，可以将`FileDescriptor`看成是该文件。但是，不能直接通过`FileDescriptor`对该文件进行操作，需要新创建`FileDescriptor`对应的`FileInputStream`或`FileOutputStream`，再对文件进行操作。
 
 应用程序不应创建自己的文件描述符。
 
@@ -168,7 +168,7 @@ PrintStream extends FilterOutputStream
 
 可以在初始化时设置是否自动冲洗缓冲（autoFlush）。
 
-字符使用平台的默认字符编码字节转换成字节输出。在需要编写字符而不是字节的情况下，应使用 `PrintWriter`类。
+字符使用平台的默认字符编码字节转换成字节输出。在需要编写字符而不是字节的情况下，应使用`PrintWriter`类。
 
 `println()`方法可以自动在末尾输出`\n`。
 
@@ -234,7 +234,7 @@ CharArrayWriter extends Writer
 
 类内部使用`char[]`实现了一个字符缓冲区。
 
-`CharArrayReader`当数据写入缓冲区时，缓冲区会自动增长（增长一倍）。数据可以使用 `toCharArray()`和`toString()`检索。
+`CharArrayReader`当数据写入缓冲区时，缓冲区会自动增长（增长一倍）。数据可以使用`toCharArray()`和`toString()`检索。
 
 关闭没有任何效果。
 
@@ -356,7 +356,7 @@ ObjectInputStream extends InputStream
     implements ObjectInput, ObjectStreamConstants
 ```
 
-`ObjectOutputStream`将基本类型类型和Java对象图写入`OutputStream`。可以使用 `ObjectInputStream`读取（重新构造）对象。
+`ObjectOutputStream`将基本类型类型和Java对象图写入`OutputStream`。可以使用`ObjectInputStream`读取（重新构造）对象。
 
 对象的持久存储可以通过使用文件输入字节流来实现。
 
@@ -437,7 +437,7 @@ public interface Externalizable extends java.io.Serializable {
 
 对象序列化使用`Serializable`和`Externalizable`接口。对象持久化机制也可以使用它们。要存储的每个对象都被测试为`Externalizable`接口。 如果对象支持`Externalizable`，则调用`writeExternal()`方法。 如果对象不支持`Externalizable`，并且实现`Serializable`，则使用`ObjectOutputStream`保存对象。
 
-当一个`Externalizable`对象被重建时，使用`public`无参构造函数创建一个实例，然后调用`readExterna() `方法。可从`ObjectInputStream`读取可序列化对象。
+当一个`Externalizable`对象被重建时，使用`public`无参构造函数创建一个实例，然后调用`readExterna()`方法。可从`ObjectInputStream`读取可序列化对象。
 
 `Externalizable`实例可以通过`Serializable`接口中记录的`writeReplace()`和`readResolve()`方法来指定一个替换对象。
 

@@ -25,7 +25,7 @@ public class ArrayList<E> extends AbstractList<E>
 - 实现了`RandomAccess`：支持随机访问，通过数组下标实现
 - 实现了`Cloneable`：支持拷贝
 - 实现了`java.io.Serializable`：支持序列化
-- 内部使用 `Object[]` 保存数据
+- 内部使用`Object[]`保存数据
 - 默认容量为`10`（懒加载，实际上初始默认容量为0，第一次扩展时如果需要的容量< 10才扩展为10）
 - 扩容时增长一半
 
@@ -931,7 +931,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
 - 实现了`Cloneable`：支持拷贝
 - 实现了`Deque`：支持双端队列操作
 - 实现了`java.io.Serializable`：支持序列化
-- 内部使用 `Object[]` 保存数据
+- 内部使用`Object[]`保存数据
 - 默认容量为`16`，最小初始容量为`8`
 - 扩容时增长一倍
 

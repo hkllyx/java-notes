@@ -18,7 +18,7 @@
 
 ## `synchronized`底层语义原理
 
-Java虚拟机中的同步（Synchronization）基于进入和退出管程/监视器（Monitor）对象实现，无论是显式同步(有明确的`monitorenter`和`monitorexit`指令，即同步代码块）还是隐式同步都是如此。
+Java虚拟机中的同步（Synchronization）基于进入和退出管程/监视器（Monitor）对象实现，无论是显式同步（有明确的`monitorenter`和`monitorexit`指令，即同步代码块）还是隐式同步都是如此。
 
 在Java语言中，同步用的最多的地方可能是被`synchronized`修饰的同步方法。同步方法并不是由`monitorenter`和`monitorexit`指令来实现同步的，而是由方法调用指令读取运行时常量池中方法的`ACC_SYNCHRONIZED`标志来隐式实现的。
 
@@ -68,7 +68,7 @@ ObjectMonitor() {
 
 ### 同步块底层原理
 
-**代码块的同步是显示的**，即显示地在字节码中使用 `monitorenter` 和 `monitorexit` 指令实现同步控制。
+**代码块的同步是显示的**，即显示地在字节码中使用`monitorenter`和`monitorexit`指令实现同步控制。
 
 ```java
 public class Demo {
@@ -111,7 +111,7 @@ public static void main(java.lang.String[]);
 ```
 
 - 我们主要关注字上面的6~11行。从字节码中可知同步语句块的实现使用的是`monitorenter`和`monitorexit`指令。其中`monitorenter`指令指向同步代码块的开始位置，`monitorexit`指令则指明同步代码块的结束位置。
-- 值得注意的是编译器将会确保无论方法通过何种方式完成，方法中调用过的每条`monitorenter` 指令都有执行其对应`monitorexit`指令，而无论这个方法是正常结束还是异常结束。为了保证在方法异常完成时`monitorenter`和`monitorexit`指令依然可以正确配对执行，编译器会自动产生一个异常处理器，这个异常处理器声明可处理所有的异常，它的目的就是用来执行`monitorexit`指令。从字节码中第17行也可以看出多了一个`monitorexit`指令，它就是异常结束时被执行的释放monitor的指令。
+- 值得注意的是编译器将会确保无论方法通过何种方式完成，方法中调用过的每条`monitorenter`指令都有执行其对应`monitorexit`指令，而无论这个方法是正常结束还是异常结束。为了保证在方法异常完成时`monitorenter`和`monitorexit`指令依然可以正确配对执行，编译器会自动产生一个异常处理器，这个异常处理器声明可处理所有的异常，它的目的就是用来执行`monitorexit`指令。从字节码中第17行也可以看出多了一个`monitorexit`指令，它就是异常结束时被执行的释放monitor的指令。
 
 底层C++源码分析
 
@@ -381,11 +381,11 @@ ObjectMonitor * ATTR ObjectSynchronizer::inflate (Thread * Self, oop object) {
       assert (!mark->has_bias_pattern(), "invariant") ;
 
       //Mark Word可能有以下几种状态:
-      // *  Inflated(膨胀完成)     - just return
-      // *  Stack-locked(轻量级锁) - coerce it to inflated
-      // *  INFLATING(膨胀中)     - busy wait for conversion to complete
-      // *  Neutral(无锁)        - aggressively inflate the object.
-      // *  BIASED(偏向锁)       - Illegal.  We should never see this
+      // *  Inflated（膨胀完成） - just return
+      // *  Stack-locked（轻量级锁） - coerce it to inflated
+      // *  INFLATING（膨胀中） - busy wait for conversion to complete
+      // *  Neutral（无锁） - aggressively inflate the object.
+      // *  BIASED（偏向锁） - Illegal. We should never see this
 
       // 判断是否是重量级锁
       if (mark->has_monitor()) {
@@ -393,7 +393,7 @@ ObjectMonitor * ATTR ObjectSynchronizer::inflate (Thread * Self, oop object) {
           assert (inf->header()->is_neutral(), "invariant");
           assert (inf->object() == object, "invariant") ;
           assert (ObjectSynchronizer::verify_objmon_isinpool(inf), "monitor is invalid");
-          // Mark->has_monitor() 为true，说明已经是重量级锁了，膨胀过程已经完成，返回
+          // Mark->has_monitor()为true，说明已经是重量级锁了，膨胀过程已经完成，返回
           return inf ;
       }
       // 如果正在膨胀

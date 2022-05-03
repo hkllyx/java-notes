@@ -200,15 +200,15 @@ JSP生命周期就是从创建到销毁的整个过程，类似于servlet生命�
 
 req、resp为传入参数，表示请求和响应，方法为基类方法。
 
-- out$\rightarrow$resp.getWriter()
-- request$\rightarrow$req
-- response$\rightarrow$resp
-- session$\rightarrow$req.getSession()
-- application$\rightarrow$getServletContext()
-- exception$\rightarrow$Throwable
-- page$\rightarrow$this
-- pageConfig$\rightarrow$PageContext
-- Config$\rightarrow$getServletConfig()
+- out -> resp.getWriter()
+- request -> req
+- response -> resp
+- session -> req.getSession()
+- application -> getServletContext()
+- exception -> Throwable
+- page -> this
+- pageConfig -> PageContext
+- Config -> getServletConfig()
 
 # Servlet配置
 
@@ -313,7 +313,7 @@ public @interface WebServlet {
 
 ### 匹配顺序
 
-精确匹配$\rightarrow$路径匹配（长路径$\rightarrow$短路径）$\rightarrow$扩展匹配$\rightarrow$默认匹配
+精确匹配 -> 路径匹配（长路径 -> 短路径） -> 扩展匹配 -> 默认匹配
 
 对于filter，不会像servlet那样只匹配一个servlet，因为filter的集合是一个链，所以只会有处理的顺序不同，而不会出现只选择一个filter。Filter的处理顺序和filter-mapping在web.xml中定义的顺序相同。
 

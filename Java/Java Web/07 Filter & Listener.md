@@ -149,7 +149,7 @@ public @interface WebFilter {
 - 跟Spring结合
 
 组件启动顺序：
-- 监听器$\rightarrow$过滤器$\rightarrow$Servlet
+- 监听器 -> 过滤器 -> Servlet
 - 监听器之间按web.xml注册顺序加载
 
 ## 监听器的分类

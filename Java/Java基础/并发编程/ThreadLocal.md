@@ -90,7 +90,7 @@ static class ThreadLocalMap {
         ...
 
         /**
-         * ThreadLocalMap是延时加载（lazy-load）,只有有Entry时才初始化
+         * ThreadLocalMap是延时加载（lazy-load），只有有Entry时才初始化
          */
         ThreadLocalMap(`hreadLocal<?> firstKey, Object firstValue) {
             table = new Entry[INITIAL_CAPACITY];

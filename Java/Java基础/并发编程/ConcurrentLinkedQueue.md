@@ -15,10 +15,10 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
      * 不变性（invariants）
      *     1. 所以存活的结点都能由head通过succ()抵达
      *     2. head != null
-     *     3. (tmp = head).next != tmp || tmp != head (其实就是head.next != head)
+     *     3. (tmp = head).next != tmp || tmp != head （其实就是head.next != head）
      * 可变性（Non-invariants）
-     *     1. head.item可能是null, 也可能不是null
-     *     2. 允许tail滞后于head, 也就是调用succ()方法, 从head不可达tail
+     *     1. head.item可能是null，也可能不是null
+     *     2. 允许tail滞后于head，也就是调用succ()方法，从head不可达tail
      */
     private transient volatile Node<E> head;
 
@@ -28,8 +28,8 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
      *     1. tail节点通过succ()方法一定到达队列中的最后一个节点（node.next = null）
      *     2. tail != null
      * 可变性（Non-invariants）
-     *     1. tail.item可能是null, 也可能不是null
-     *     2. 允许tail滞后于head, 也就是调用succ()方法,从head不可达tail
+     *     1. tail.item可能是null，也可能不是null
+     *     2. 允许tail滞后于head，也就是调用succ()方法，从head不可达tail
      *     3. tail.next可能指向tail
      */
     private transient volatile Node<E> tail;
@@ -219,4 +219,4 @@ public E poll() {
 }
 ```
 
-[ConcurrentLinkedQueue源码分析 (基于Java 8)](https://www.jianshu.com/p/08e8b0c424c0)
+[ConcurrentLinkedQueue源码分析 （基于Java 8）](https://www.jianshu.com/p/08e8b0c424c0)

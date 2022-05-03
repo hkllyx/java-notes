@@ -150,7 +150,7 @@ Linux中IO复用的实现方式主要有：`select`、`poll`和`epoll`：
 
 - `select`：注册IO、阻塞扫描，监听的IO最大连接数不能多于`FD_SIZE`；
 - `poll`：原理和`select`相似，没有数量限制，但IO数量大扫描线性性能下降；
-- `epoll` ：事件驱动不阻塞，mmap实现内核与用户空间的消息传递，数量很大，Linux2.6后内核支持；
+- `epoll`：事件驱动不阻塞，mmap实现内核与用户空间的消息传递，数量很大，Linux2.6后内核支持；
 
 ### 信号驱动IO模型
 
@@ -193,6 +193,6 @@ Linux中IO复用的实现方式主要有：`select`、`poll`和`epoll`：
 
 ## Linux IO模型和Java IO
 
-- 阻塞IO模型$\rightarrow$Java传统IO（BIO）
-- IO复用模型$\rightarrow$Java 4新IO（NIO）
-- 异步IO模型$\rightarrow$Java 7异步IO（NIO 2，AIO）
+- 阻塞IO模型 -> Java传统IO（BIO）
+- IO复用模型 -> Java 4新IO（NIO）
+- 异步IO模型 -> Java 7异步IO（NIO 2，AIO）

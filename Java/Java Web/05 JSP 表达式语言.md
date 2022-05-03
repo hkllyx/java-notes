@@ -18,7 +18,7 @@ EL表达式借鉴了JavaScript多类型转换无关性的特点，在使用EL从
 
 ## 语法
 
-```
+```jsp
 ${ expression }
 ```
 - expression可以是字符串、整形、浮点型、布尔型（true、false）等常量，也可以是变量，或者是它们之间的运算
@@ -56,11 +56,11 @@ ${ expression }
 | sessionScope     | 代表session域，可以用来获取session域中的属性                                                                                                               |
 | applicationScope | 代表application域，可以用来获取application域中的属性                                                                                                       |
 | pageContext      | 代表pageContext对象，注意和pageScope进行区分                                                                                                               |
-| initParam        | 以map封装的web.xml中配置的整个web应用的初始化参数，返回String类型<br> `${initParam.name}`$\Rightarrow$`ServletContext.getInitParameter(String name)` |
-| param            | 代表请求参数组成的map集合，返回String类型。<br> `${param.name}`$\Rightarrow$`request.getParameter(String name)`                                          |
-| paramValues      | 代表请求参数组成的map集合，返回String[] 类型<br> `${paramValues.name}`$\Rightarrow$`request.getParameterValues(String name)`                              |
-| header           | 获取所有HTTP请求字段的map对象，返回String类型 <br> `${header.name}`$\Rightarrow$`request.getHeader(String name)`                                       |
-| headerValues     | 获取请求头组成的map，返回String[] 类型<br> `${headerValues}`$\Rightarrow$`request.getHeaders(String name)`                                                 |
+| initParam        | 以map封装的web.xml中配置的整个web应用的初始化参数，返回String类型<br> `${initParam.name}` -> `ServletContext.getInitParameter(String name)` |
+| param            | 代表请求参数组成的map集合，返回String类型。<br> `${param.name}` -> `request.getParameter(String name)`                                          |
+| paramValues      | 代表请求参数组成的map集合，返回String[] 类型<br> `${paramValues.name}` -> `request.getParameterValues(String name)`                              |
+| header           | 获取所有HTTP请求字段的map对象，返回String类型 <br> `${header.name}` -> `request.getHeader(String name)`                                       |
+| headerValues     | 获取请求头组成的map，返回String[] 类型<br> `${headerValues}` -> `request.getHeaders(String name)`                                                 |
 | cookie           | 获取cookie组成的map对象，此map的值是一个cookie对象<br>`${cookie.name.value}`，获取指定name的Cookie的值                                             |
 
 # 使用
