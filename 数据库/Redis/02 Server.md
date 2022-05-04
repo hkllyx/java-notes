@@ -59,10 +59,10 @@ Redis服务器命令主要是用于管理redis服务。
 BGREWRITEAOF
 ```
 - 用于异步执行一个AOF（AppendOnly File）文件重写操作。重写会创建一个当前AOF文件的体积优化版本。
-- 即使 `BGREWRITEAOF` 执行失败，也不会有任何数据丢失，因为旧的AOF文件在 `BGREWRITEAOF` 成功之前不会被修改。
-- AOF重写由Redis自行触发， `BGREWRITEAOF` 仅仅用于手动触发重写操作。
+- 即使`BGREWRITEAOF`执行失败，也不会有任何数据丢失，因为旧的AOF文件在`BGREWRITEAOF`成功之前不会被修改。
+- AOF重写由Redis自行触发，`BGREWRITEAOF`仅仅用于手动触发重写操作。
 - 具体内容:
-    - 如果一个子Redis是通过磁盘快照创建的，AOF重写将会在RDB终止后才开始保存。这种情况下 `BGREWRITEAOF` 任然会返回OK状态码。从Redis 2.6起你可以通过 `INFO` 命令查看AOF重写执行情况。
+    - 如果一个子Redis是通过磁盘快照创建的，AOF重写将会在RDB终止后才开始保存。这种情况下`BGREWRITEAOF`任然会返回OK状态码。从Redis 2.6起你可以通过`INFO`命令查看AOF重写执行情况。
     - 如果只在执行的AOF重写返回一个错误，AOF重写将会在稍后一点的时间重新调用。
     - 从Redis 2.4开始，AOF重写由Redis自行触发，`BGREWRITEAOF` 仅仅用于手动触发重写操作。
 
@@ -73,13 +73,13 @@ BGSAVE
 ```
 - 后台保存DB。会立即返回OK状态码。
 - Redis forks, 父进程继续提供服务以供客户端调用，子进程将DB数据保存到磁盘然后退出。
-- 如果操作成功，可以通过客户端命令 `LASTSAVE` 来检查操作结果。
+- 如果操作成功，可以通过客户端命令`LASTSAVE`来检查操作结果。
 
 ```
 SAVE
 ```
-- 执行一个同步操作，以RDB文件的方式保存所有数据的快照很少在生产环境直接使用SAVE命令，因为它会阻塞所有的客户端的请求，可以使用 `BGSAVE` 命令代替。
-- 如果在 `BGSAVE` 命令的保存数据的子进程发生错误的时，用 `SAVE` 命令保存最新的数据是最后的手段，详细的说明请参考 [Persistence](Advance/Persistence.md)。
+- 执行一个同步操作，以RDB文件的方式保存所有数据的快照很少在生产环境直接使用SAVE命令，因为它会阻塞所有的客户端的请求，可以使用`BGSAVE`命令代替。
+- 如果在`BGSAVE`命令的保存数据的子进程发生错误的时，用`SAVE`命令保存最新的数据是最后的手段，详细的说明请参考 [Persistence](Advance/Persistence.md)。
 
 ## CLIENT
 
@@ -92,7 +92,7 @@ CLIENT <subcommand> arg [arg ...]
 ```
 CLIENT GETNAME
 ```
-- 返回当前连接由 `CLIENT SETNAME` 设置的名字。如果没有用CLIENT SETNAME设置名字，将返回一个空的回复。
+- 返回当前连接由`CLIENT SETNAME`设置的名字。如果没有用CLIENT SETNAME设置名字，将返回一个空的回复。
 
 ### CLIENT ID
 
@@ -100,9 +100,9 @@ CLIENT GETNAME
 CLIENT ID
 ```
 - 该命令返回当前连接的ID，每个ID符合如下约束：
-    - 永不重复。当调用命令 `CLIENT ID` 返回相同的值时，调用者可以确认原连接未被断开，只是被重用，因此仍可以认为是同一连接
+    - 永不重复。当调用命令`CLIENT ID`返回相同的值时，调用者可以确认原连接未被断开，只是被重用，因此仍可以认为是同一连接
     - ID值单调递增。若某一连接的ID值比其他连接的ID值大，可以确认该连接是较新创建的
-- 该命令和同为Redis 5新增的命令 `CLIENT UNBLOCK` 一起使用，会有更好的效果。
+- 该命令和同为Redis 5新增的命令`CLIENT UNBLOCK`一起使用，会有更好的效果。
 
 ### CLIENT KILL
 
@@ -113,7 +113,7 @@ CLIENT KILL [ip:port] [ID client-id] [normal|slave|pubsub] [ADDR ip:port] [SKIPM
 - 选项：
     - `normal|slave|pubsub`，关闭所有指定类的客户端。请注意被认为是属于normal类的客户端将会被MONITOR命令监视到。
     - `SKIPME yes/no` 默认情况下，该选项设置为yes，即调用该命令的客户端不会被杀死，但是将该选项设置为no也会杀死调用该命令的客户端
-- 当前版本的Redis Sentinel可以在实例被重新配置的时候使用 `CLIENT KILL` 杀死客户端。这样可以强制客户端和一个Sentinel重新连接并更新自己的配置。
+- 当前版本的Redis Sentinel可以在实例被重新配置的时候使用`CLIENT KILL`杀死客户端。这样可以强制客户端和一个Sentinel重新连接并更新自己的配置。
 - 因为Redis的单线程属性，不可能在客户端执行命令时杀掉它。从客户端的角度看，永远无法杀死一个正在执行命令的连接。但是当客户端发送下一条命令时会意识到连接已被关闭，原因为网络错误。
 
 ### CLIENT LIST
@@ -153,14 +153,14 @@ CLIENT PAUSE timeout
 - 连接控制命令，它可以将所有客户端的访问暂停给定的毫秒数
 - 该命令执行如下：
     - 它会停止处理所有来自一般客户端或者pub/sub客户端的命令。但是和slaves的交互命令不受影响。
-    - 因为它会尽快返回OK给调用者，所以 `CLIENT PAUSE` 不会被自己暂停。
+    - 因为它会尽快返回OK给调用者，所以`CLIENT PAUSE`不会被自己暂停。
     - 当给定的时间结束，所有的客户端都被解除阻塞：查询缓存里积累的所有命令都会被处理。
 - 当该命令可以可控的将客户端从一个Redis实例切换至另一个实例。比如，当需要升级一个实例时，管理员可以作如下操作：
-    1. 使用 `CLIENT PAUSE` 暂停所有客户端
+    1. 使用`CLIENT PAUSE`暂停所有客户端
     2. 等待数秒，让slaves节点处理完所有来自master的复制命令
     3. 将一个salve节点切换为master
     4. 重配客户端以来接新的master节点
-- 可以在 `MULTI`/`EXEC` 中一起使用 `CLIENT PAUSE` 和 `INFO replication` 以在阻塞的同时获取当前master的偏移量。用这种方法，可以让slaves处理至给定的复制偏移节点。
+- 可以在`MULTI`/`EXEC`中一起使用`CLIENT PAUSE`和`INFO replication`以在阻塞的同时获取当前master的偏移量。用这种方法，可以让slaves处理至给定的复制偏移节点。
 
 ### CLIENT REPLY
 
@@ -186,9 +186,9 @@ CLIENT REPLY ON|OFF|SKIP
 CLIENT SETNAME connection-name
 ```
 - 为当前连接分配一个名字。
-- 这个名字会显示在 `CLIENT LIST` 命令的结果中， 用于识别当前正在与服务器进行连接的客户端。
+- 这个名字会显示在`CLIENT LIST`命令的结果中， 用于识别当前正在与服务器进行连接的客户端。
 - 举个例子， 在使用Redis构建队列（queue）时，可以根据连接负责的任务（role），为信息生产者（producer）和信息消费者（consumer）分别设置不同的名字。
-- 名字使用Redis的字符串类型来保存， 最大可以占用512 MB。另外，为了避免和 `CLIENT LIST` 命令的输出格式发生冲突，名字里不允许使用空格。
+- 名字使用Redis的字符串类型来保存， 最大可以占用512 MB。另外，为了避免和`CLIENT LIST`命令的输出格式发生冲突，名字里不允许使用空格。
 - 要移除一个连接的名字，可以将连接的名字设为空字符串。
 - 新创建的连接默认是没有名字的。
 - 提示：在Redis应用程序发生连接泄漏时，为连接设置名字是一种很好的debug手段。
@@ -198,17 +198,17 @@ CLIENT SETNAME connection-name
 ```
 CLIENT UNBLOCK client-id [TIMEOUT|ERROR]
 ```
-- 当客户端因为执行具有阻塞功能的命令如 `BRPOP`、`XREAD` 或者 `WAIT` 被阻塞时，该命令可以通过其他连接解除客户端的阻塞
+- 当客户端因为执行具有阻塞功能的命令如`BRPOP`、`XREAD`或者`WAIT`被阻塞时，该命令可以通过其他连接解除客户端的阻塞
 - 默认情况下，当命令设置的timeout超时时，客户端会被解除阻塞。当提供了额外 (可选) 的设置，可以确定解除阻塞的类型，可以是TIMEOUT或者ERROR类型。当时ERROR类型时，客户端阻塞被强制解除同时收到如下明确报错信息：
     ```
     -UNBLOCKED client unblocked via CLIENT UNBLOCK
     ```
     注意：当然，通常情况下错误信息不会完全一样，但是错误代码中一定包含 -UNBLOCKED字样
-- 这个命令，在仅能使用较少连接但要监控大量keys的时候特别有用。例如使用命令 `XREAD` 和很少连接监控多个消息流，在某个时间点，信息流消费进程需要新增一个消息流key的监控，为了避免使用更多连接，最好的方法是从连接池中停掉一个阻塞的连接，增加新的要监控的key，在重启该阻塞命令即可。
+- 这个命令，在仅能使用较少连接但要监控大量keys的时候特别有用。例如使用命令`XREAD`和很少连接监控多个消息流，在某个时间点，信息流消费进程需要新增一个消息流key的监控，为了避免使用更多连接，最好的方法是从连接池中停掉一个阻塞的连接，增加新的要监控的key，在重启该阻塞命令即可。
 - 我们使用如下操作流程来实现实现这种操作：
     1. 管理进程使用额外的连接control connection在必要时执行 `CLIENT UNBLOCK`
-    2. 同时，在某一连接执行阻塞命令之前，进程执行 `CLIENT ID` 获取该连接的ID值
-    3. 当需要监控一个新增的key或者取消一个key的监控时，通过在control connection中执行 `CLIENT UNBLOCK` + 上一步获取ID值来解除相关连接的阻塞
+    2. 同时，在某一连接执行阻塞命令之前，进程执行`CLIENT ID`获取该连接的ID值
+    3. 当需要监控一个新增的key或者取消一个key的监控时，通过在control connection中执行`CLIENT UNBLOCK`+ 上一步获取ID值来解除相关连接的阻塞
     4. 监控key调整后再次执行阻塞命令即可。
 - 上述例子以Redis streams为例介绍了操作流程，该操作流程也可以应用到其他数据结构类型
 
@@ -219,7 +219,7 @@ COMMAND
 ```
 - 以数组的形式返回有关所有Redis命令的详细信息。
 - 集群客户端必须知道命令中key的位置，以便命令可以转到匹配的实例，但是Redis命令在接收一个key，多个key甚至由其他数据分隔开的多个key之间会有所不同。
-- 你可以使用 `COMMAND` 来为每一个命令缓存命令和key位置之间的映射关系，以实现命令到集群的精确路由。
+- 你可以使用`COMMAND`来为每一个命令缓存命令和key位置之间的映射关系，以实现命令到集群的精确路由。
 - 嵌套结果数组。每一个顶级结果包含了六个嵌套的结果。每一个嵌套结果是：
     - 命令名称：以小写字符串形式返回的命令
     - 命令元数规范，命令元数遵循一个简单的模式：
@@ -251,7 +251,7 @@ COMMAND
         - 如果命令接收无限数量的key，那么最后一个key的位置是 - 1。
     - 用于定位重复key的步数
         - Key的步数允许我们在命令中查找key的位置，比如 `MSET`，其格式是 `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]`...。
-        - 在 `MSET` 的用例中，key是每隔一个位置出现，所以步数的值是2。对比 `MGET`，其步数是1。
+        - 在`MSET`的用例中，key是每隔一个位置出现，所以步数的值是2。对比 `MGET`，其步数是1。
 
 ### COMMAND COUNT
 
@@ -268,7 +268,7 @@ COMMAND GETKEYS command-name arg [arg ...]
 - 以array-reply的形式从完整的Redis命令返回key。
 - `COMMAND GETKEYS` 是一个辅助命令，让你可以从完整的Redis命令中找到key。
 - `COMMAND` 显示了某些命令拥有可变位置的key，这意味着必须分析完整的命令才能找到要存储或者检索的key。
-- 你可以使用 `COMMAND GETKEYS` 直接从Redis解析命令的方式来发现key的位置。
+- 你可以使用`COMMAND GETKEYS`直接从Redis解析命令的方式来发现key的位置。
 - 示例：
     ```
     127.0.0.1:6379> COMMAND GETKEYS MSET a b c d e f
@@ -283,7 +283,7 @@ COMMAND GETKEYS command-name arg [arg ...]
 COMMAND INFO command-name [command-name ...]
 ```
 - 以array-reply的形式返回多个Redis命令的详细信息。
-- 此命令返回的结果与 `COMMAND` 相同，但是你可以指定返回哪些命令。
+- 此命令返回的结果与`COMMAND`相同，但是你可以指定返回哪些命令。
 - 如果你指定了一些不存在的命令，那么在它们的返回位置将会是nil。
 
 ## CONFIG
@@ -323,7 +323,7 @@ CONFIG GET parameter
 ```
 - `CONFIG GET` 命令用来读取redis服务器的配置文件参数，但并不是所有参数都支持。 与之对应的命令是CONFIG SET用来设置服务器的配置参数。
 - `CONFIG GET` 命令只接受一个参数，所有配置参数都采用key-value的形式。
-- 通过 `CONFIG GET *` 可以查看所有支持的参数。
+- 通过`CONFIG GET *`可以查看所有支持的参数。
 - 所有支持的参数都与redis.conf里面的一样，除了如下的重要差异：
     - 如果指定了byte或其他单位，则不能使用redis.conf的缩写形式（10k, 2gb ...），应在配置指令的基本单元中将所有内容指定为格式良好的64位整数。
     - save参数是由空格分隔的整数组成的单个字符串。每对整数代表一个秒/修改阈值。例如，如果数据集有1个以上变更，则在900秒后保存；如果有10个以上变更，则在300秒后就保存：
@@ -332,7 +332,7 @@ CONFIG GET parameter
             save 900 1
             save 300 10
             ```
-        - 在 `CONFIG GET save` 返回值为
+        - 在`CONFIG GET save`返回值为
             ```
             900 1 300 10
             ```
@@ -342,7 +342,7 @@ CONFIG GET parameter
 ```
 CONFIG RESETSTAT
 ```
-- 重置使用 `INFO` 命令Redis报告的统计信息。
+- 重置使用`INFO`命令Redis报告的统计信息。
 
 ### CONFIG REWRITE
 
@@ -359,7 +359,7 @@ CONFIG REWRITE
     - 如果原始文件由于某些原因不再存在，`CONFIG REWRITE` 也能够从头开始重写配置文件。但是，如果服务器启动的时候没有指定任何配置文件，则只会返回一个错误。
 - 原子重写过程
     - 为了保证redis.conf文件始终是一致的，也即，在异常或者崩溃的时候，你的配置文件要么是旧的文件，或者是重写完的新文件。
-    - 重写是通过一次具有足够内容的 `write(2)` 调用来执行的，至少和旧的文件一样大。
+    - 重写是通过一次具有足够内容的`write(2)`调用来执行的，至少和旧的文件一样大。
     - 有时会以注释的形式添加额外的padding，以确保生成的文件足够大，稍后文件会被截断以删除末尾的padding。
 
 ### CONFIG SET
@@ -368,8 +368,8 @@ CONFIG REWRITE
 CONFIG SET parameter value
 ```
 - 用于在服务器运行期间重写某些配置，而不用重启Redis。你可以使用此命令更改不重要的参数或从一个参数切换到另一个持久性选项。
-- 所有使用 `CONFIG SET` 设置的配置参数将会立即被Redis加载，并从下一个执行的命令开始生效。
-- 可以使用 `CONFIG SET` 命令将持久化从RDB快照切换到AOF文件（或其他相似的方式）。
+- 所有使用`CONFIG SET`设置的配置参数将会立即被Redis加载，并从下一个执行的命令开始生效。
+- 可以使用`CONFIG SET`命令将持久化从RDB快照切换到AOF文件（或其他相似的方式）。
 - 一般来说，你应该知道将appendonly参数设置为yes将启动后台进程以保存初始AOF文件（从内存数据集中获取），并将所有后续命令追加到AOF文件，从而达到了与一个Redis服务器从一开始就开启了AOF选项相同的效果。
 - 如果你愿意，可以同时开启AOF和RDB快照，这两个选项不是互斥的。
 
@@ -388,7 +388,7 @@ DBSIZE
 DEBUG OBJECT key
 ```
 - 一个不应该被客户端使用的调试命令。
-- 具体参考Key的 `OBJECT` 命令。
+- 具体参考Key的`OBJECT`命令。
 
 ### DEBUG SEGFAULT
 
@@ -442,7 +442,7 @@ INFO [section]
 LASTSAVE
 ```
 - 执行成功时返回UNIX时间戳。
-- 客户端执行 `BGSAVE` 命令时，可以通过每N秒发送一个 `LASTSAVE` 命令来查看 `BGSAVE` 命令执行的结果，由 `LASTSAVE` 返回结果的变化可以判断执行结果。
+- 客户端执行`BGSAVE`命令时，可以通过每N秒发送一个`LASTSAVE`命令来查看`BGSAVE`命令执行的结果，由`LASTSAVE`返回结果的变化可以判断执行结果。
 
 ## LOLWUT
 
@@ -455,7 +455,7 @@ LOLWUT [VERSION version]
     ```
     LOLWUT VERSION 5 ... other optional arguments ...
     ```
-- 上面的“5”就是一个例子。每个 `LOLWUT` 版本都采用一组不同的参数来更改输出。用户可以通过添加更多的数值参数来了解输出是如何变化的。
+- 上面的“5”就是一个例子。每个`LOLWUT`版本都采用一组不同的参数来更改输出。用户可以通过添加更多的数值参数来了解输出是如何变化的。
 
 ## MEMORY
 
@@ -527,7 +527,7 @@ MODULE LOAD path [ arg [arg ...]]
 MODULE UNLOAD name
 ```
 - 卸载一个模块。
-- 此命令卸载按名称指定的模块。注意，模块的名称是由 `MODULE LIST` 命令报告的，可能与动态库的文件名不同。
+- 此命令卸载按名称指定的模块。注意，模块的名称是由`MODULE LIST`命令报告的，可能与动态库的文件名不同。
 - 已知的限制：无法卸载注册自定义数据类型的模块。
 
 ## MONITOR
@@ -539,9 +539,9 @@ MONITOR
     ```
     $ redis-cli monitor
     ```
-- 使用SIGINT (Ctrl-C) 来停止 通过redis-cli使用 `MONITOR` 命令返回的输出
-- 使用 `QUIT` 命令来停止通过telnet使用 `MONITOR` 返回的输出
-- 性能消耗：由于 `MONITOR` 命令返回服务器处理的所有的命令，所以在性能上会有一些消耗
+- 使用SIGINT (Ctrl-C) 来停止 通过redis-cli使用`MONITOR`命令返回的输出
+- 使用`QUIT`命令来停止通过telnet使用`MONITOR`返回的输出
+- 性能消耗：由于`MONITOR`命令返回服务器处理的所有的命令，所以在性能上会有一些消耗
 
 ## PSYNC, SYNC
 
@@ -549,14 +549,14 @@ MONITOR
 PSYNC replicationid offset
 ```
 - 从主服务器启动一个复制流。
-- 为了从主服务器启动复制流，Redis副本调用 `PSYNC` 命令。
+- 为了从主服务器启动复制流，Redis副本调用`PSYNC`命令。
 
 ```
 SYNC
 ```
 - 从主服务器启动一个复制流。
-- Redis replicas调用 `SYNC` 命令来启动来自主服务器的复制流。
-- 在较新的Redis版本中，它已被 `PSYNC` 取代。
+- Redis replicas调用`SYNC`命令来启动来自主服务器的复制流。
+- 在较新的Redis版本中，它已被`PSYNC`取代。
 - 有关在Redis复制的更多信息，请检查 [Replication](Advance/Replication.md) 页面。
 
 ## REPLICAOF
@@ -565,9 +565,9 @@ SYNC
 REPLICAOF host port
 ```
 - 在线修改当前服务器的复制设置。
-- 如果当前服务器已经是副本服务器，命令 `REPLIACOF NO ONE` 会关闭当前服务器的复制并转变为主服务器。执行 `REPLIACOF hostname port` 会将当前服务器转变为某一服务器的副本服务器。
-- 如果当前服务器已经是某个主服务器 (master server) 的副本服务器，那么执行 `REPLICAOF hostname port` 将使当前服务器停止对原主服务器的同步，丢弃旧数据集，转而开始对新主服务器进行同步。
-- 对一个副本服务器执行命令 `REPLICAOF NO ONE` 将使得这个副本服务器关闭复制，并从副本服务器转变回主服务器，原来同步所得的数据集不会被丢弃。因此，当原主服务器停止服务，可以将该副本服务器切换为主服务器，应用可以使用新主服务器进行读写。原主服务器修复后，可将其设置为新主服务器的副本服务器。
+- 如果当前服务器已经是副本服务器，命令`REPLIACOF NO ONE`会关闭当前服务器的复制并转变为主服务器。执行`REPLIACOF hostname port`会将当前服务器转变为某一服务器的副本服务器。
+- 如果当前服务器已经是某个主服务器 (master server) 的副本服务器，那么执行`REPLICAOF hostname port`将使当前服务器停止对原主服务器的同步，丢弃旧数据集，转而开始对新主服务器进行同步。
+- 对一个副本服务器执行命令`REPLICAOF NO ONE`将使得这个副本服务器关闭复制，并从副本服务器转变回主服务器，原来同步所得的数据集不会被丢弃。因此，当原主服务器停止服务，可以将该副本服务器切换为主服务器，应用可以使用新主服务器进行读写。原主服务器修复后，可将其设置为新主服务器的副本服务器。
 
 ## ROLE
 
@@ -587,11 +587,11 @@ SHUTDOWN [NOSAVE] [SAVE]
     - 如果配置了save策略则执行一个阻塞的save命令。
     - 如果开启了AOF, 则刷新aof文件。
     - 关闭redis服务进程（redis-server）。
-- 如果配置了持久化策略，那么这个命令将能够保证在关闭redis服务进程的时候数据不会丢失。如果仅仅在客户端执行 `SAVE` 命令，然后执行 `QUIT` 命令，那么数据的完整性将不会被保证，因为其他客户端可能在执行这两个命令的期间修改数据库的数据。
-- 注意：一个没有配置持久化策略的redis实例 (没有aof配置，没有 `SAVE` 命令) 将不会在执行 `SHUTDOWN` 命令的时候转存一个rdb文件，通常情况下你不想让一个仅用于缓存的rendis实例宕掉。
+- 如果配置了持久化策略，那么这个命令将能够保证在关闭redis服务进程的时候数据不会丢失。如果仅仅在客户端执行`SAVE`命令，然后执行`QUIT`命令，那么数据的完整性将不会被保证，因为其他客户端可能在执行这两个命令的期间修改数据库的数据。
+- 注意：一个没有配置持久化策略的redis实例 (没有aof配置，没有`SAVE`命令) 将不会在执行`SHUTDOWN`命令的时候转存一个rdb文件，通常情况下你不想让一个仅用于缓存的rendis实例宕掉。
 - SAVE和NOSAVE修饰符：通过指定一个可选的修饰符可以改变这个命令的表现形式，比如:
     - SHUTDOWN SAVE能够在即使没有配置持久化的情况下强制数据库存储。
-    - SHUTDOWN NOSAVE能够在配置一个或者多个持久化策略的情况下阻止数据库存储。(你可以假想它为一个中断服务的 `ABORT` 命令)
+    - SHUTDOWN NOSAVE能够在配置一个或者多个持久化策略的情况下阻止数据库存储。(你可以假想它为一个中断服务的`ABORT`命令)
 返回值
 - 当发生错误的时候返回状态码。当成功的时候不返回任何值，服务退出，连接关闭。
 
@@ -601,9 +601,9 @@ SHUTDOWN [NOSAVE] [SAVE]
 SLAVEOF host port
 ```
 - 可以将当前服务器转变为指定服务器的从属服务器 (slave server)。
-- 如果当前服务器已经是某个主服务器 (master server) 的从属服务器，那么执行 `SLAVEOF host port` 将使当前服务器停止对旧主服务器的同步，丢弃旧数据集，转而开始对新主服务器进行同步。
-- 另外，对一个从属服务器执行命令 `SLAVEOF NO ONE` 将使得这个从属服务器关闭复制功能，并从从属服务器转变回主服务器，原来同步所得的数据集不会被丢弃。
-- 利用『 `SLAVEOF NO ONE` 不会丢弃同步所得数据集』这个特性，可以在主服务器失败的时候，将从属服务器用作新的主服务器，从而实现无间断运行。
+- 如果当前服务器已经是某个主服务器 (master server) 的从属服务器，那么执行`SLAVEOF host port`将使当前服务器停止对旧主服务器的同步，丢弃旧数据集，转而开始对新主服务器进行同步。
+- 另外，对一个从属服务器执行命令`SLAVEOF NO ONE`将使得这个从属服务器关闭复制功能，并从从属服务器转变回主服务器，原来同步所得的数据集不会被丢弃。
+- 利用『`SLAVEOF NO ONE`不会丢弃同步所得数据集』这个特性，可以在主服务器失败的时候，将从属服务器用作新的主服务器，从而实现无间断运行。
 
 ## SLOWLOG
 

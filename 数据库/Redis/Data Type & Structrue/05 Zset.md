@@ -27,8 +27,8 @@
 
 # 使用场景
 
-- 在一个巨型在线游戏中建立一个排行榜，每当有新的记录产生时，使用 `ZADD` 来更新它。你可以用 `ZRANGE` 轻松地获取排名靠前的用户， 你也可以提供一个用户名，然后用 `ZRANK` 获取他在排行榜中的名次。 同时使用 `ZRANK` 和 `ZRANGE` 你可以获得与指定用户有相同分数的用户名单。所有这些操作都非常迅速。
-- 有序集合通常用来索引存储在Redis中的数据。例如：如果你有很多的hash来表示用户，那么你可以使用一个有序集合，这个集合的年龄字段用来当作评分，用户ID当作值。用 `ZRANGEBYSCORE` 可以简单快速地检索到给定年龄段的所有用户。
+- 在一个巨型在线游戏中建立一个排行榜，每当有新的记录产生时，使用`ZADD`来更新它。你可以用`ZRANGE`轻松地获取排名靠前的用户， 你也可以提供一个用户名，然后用`ZRANK`获取他在排行榜中的名次。 同时使用`ZRANK`和`ZRANGE`你可以获得与指定用户有相同分数的用户名单。所有这些操作都非常迅速。
+- 有序集合通常用来索引存储在Redis中的数据。例如：如果你有很多的hash来表示用户，那么你可以使用一个有序集合，这个集合的年龄字段用来当作评分，用户ID当作值。用`ZRANGEBYSCORE`可以简单快速地检索到给定年龄段的所有用户。
 - 有序集合或许是最高级的Redis数据类型。
 
 # 相关命令
@@ -50,7 +50,7 @@ ZADD key [NX|XX] [CH] [INCR] score member [score member ...]
     | XX   | 仅更新存在的成员，不添加新成员                          |
     | NX   | 不更新存在的成员，只添加新成员                          |
     | CH   | changed，修改返回值为发生变化的成员总数，不包括分数更新 |
-    | INCR | 类似 `ZINCRBY` 命令，对成员的分数进行递增操作           |
+    | INCR | 类似`ZINCRBY`命令，对成员的分数进行递增操作           |
 
 ## ZCARD
 
@@ -119,9 +119,9 @@ ZRANGE key start stop [WITHSCORES]
 - 返回存储在有序集合key中的指定范围的元素。返回的元素可以认为是按得分从最低到最高排列。如果得分相同，将按字典排序。
 - 当你需要元素从最高分到最低分排列时，请参阅 `ZREVRANGE`（相同的得分将使用字典倒序排序）。
 - 参数start和stop都是基于零的索引，即0是第一个元素，1是第二个元素，以此类推。 它们也可以是负数，表示从有序集合的末尾的偏移量，其中 -1是有序集合的最后一个元素，-2是倒数第二个元素，等等。
-- start和stop都是全包含的区间，因此例如 `ZRANGE myzset 0 1` 将会返回有序集合的第一个和第二个元素。
+- start和stop都是全包含的区间，因此例如`ZRANGE myzset 0 1`将会返回有序集合的第一个和第二个元素。
 - 超出范围的索引不会产生错误。如果start参数的值大于有序集合中的最大索引，或者start > stop，将会返回一个空列表。 如果stop的值大于有序集合的末尾，Redis会将其视为有序集合的最后一个元素。
-- 可以传递 `WITHSCORES` 选项，以便将元素的分数与元素一起返回。。客户端类库可以自由地返回更合适的数据类型（建议：具有值和得分的数组或记录）。
+- 可以传递`WITHSCORES`选项，以便将元素的分数与元素一起返回。。客户端类库可以自由地返回更合适的数据类型（建议：具有值和得分的数组或记录）。
 
 ## ZRANGEBYLEX, ZREVRANGEBYLEX, ZLEXCOUNT
 
@@ -138,8 +138,8 @@ ZRANGEBYLEX key min max [LIMIT offset count]
     - “max” 和 “min” 参数前可以加 “(“ 符号作为开头表示小于，“(“ 符号与成员之间不能有空格。返回成员结果集不会包含 “max” 和 “min” 成员。
     - 可以使用 “-“ 和 “+” 表示得分最小值和最大值
     - “min” 和 “max” 不能反，“max” 放前面 “min” 放后面会导致返回结果为空
-    - 与 `ZRANGEBYLEX` 获取顺序相反的指令是 `ZREVRANGEBYLEX`。
-    - 源码中采用C语言中 `memcmp()` 函数，从字符的第0位到最后一位进行排序，如果前面部分相同，那么较长的字符串比较短的字符串排序靠后。
+    - 与`ZRANGEBYLEX`获取顺序相反的指令是 `ZREVRANGEBYLEX`。
+    - 源码中采用C语言中`memcmp()`函数，从字符的第0位到最后一位进行排序，如果前面部分相同，那么较长的字符串比较短的字符串排序靠后。
 
 ```
 ZREVRANGEBYLEX key max min [LIMIT offset count]
@@ -154,7 +154,7 @@ ZLEXCOUNT key min max
     - 可以使用 '-' 和 '+' 表示得分最小值和最大值
     - min和max不能反，max放前面min放后面会导致返回结果为0
     - 计算成员之间的成员数量时，参数min和max的位置也计算在内
-    - min和max参数的含义与 `ZRANGEBYLEX` 命令中所描述的相同
+    - min和max参数的含义与`ZRANGEBYLEX`命令中所描述的相同
 
 ## ZRANGEBYSCORE, ZREVRANGEBYSCORE, ZCOUNT
 
@@ -177,7 +177,7 @@ ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]
 ZCOUNT key min max
 ```
 - 返回有序集key中score值在min和max之间 (默认包括score值等于min或max) 的成员。
-- 关于参数min和max的详细使用方法，请参考 `ZRANGEBYSCORE` 命令。
+- 关于参数min和max的详细使用方法，请参考`ZRANGEBYSCORE`命令。
 
 ## ZRANK, ZREVRANGE
 
@@ -185,7 +185,7 @@ ZCOUNT key min max
 ZRANK key member
 ```
 - 返回有序集key中成员member的排名。其中有序集成员按score值递增 (从小到大) 顺序排列。排名以0为底，也就是说，score值最小的成员排名为0。
-- 使用 `ZREVRANK` 命令可以获得成员按score值递减 (从大到小) 排列的排名。
+- 使用`ZREVRANK`命令可以获得成员按score值递减 (从大到小) 排列的排名。
 
 ```
 ZREVRANK key member
@@ -232,4 +232,4 @@ ZREMRANGEBYRANK key start stop
 ```
 ZSCAN key cursor [MATCH pattern] [COUNT count]
 ```
-- 参见Redis Key中 `SCAN` 命令。
+- 参见Redis Key中`SCAN`命令。

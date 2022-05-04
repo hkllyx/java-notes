@@ -131,7 +131,7 @@ XML Schema是可扩展的，因为它们由XML编写。
 </xs:schema>
 ```
 xs:schema元素是每一个XML Schema的根元素。它有几个属性：
-- `xmlns:xs`：定义schema中使用的元素和数据类型属于 "http://www.w3.org/2001/XMLSchema" 命名空间；并指定如果要使用该命名空间中定义的元素和数据类型必须以 `xs:` 开头。
+- `xmlns:xs`：定义schema中使用的元素和数据类型属于 "http://www.w3.org/2001/XMLSchema" 命名空间；并指定如果要使用该命名空间中定义的元素和数据类型必须以`xs:`开头。
 - `targetNamespace`：指定在当前的schema中定义的元素是在这个命名空间中定义的。
 - `xmlns`：指定默认的命名空间。
 - `elementFormDefault`：指定在XML文件中使用的元素是否是必须是该schema中定义的合法元素。
@@ -173,7 +173,7 @@ XML Schema可定义XML文件的元素。
 
 <xs:element ref="element_name">
 ```
-- `[` 和 `]` 之间表示可选的。`|` 表是或，多选一。
+- `[` 和`]`之间表示可选的。`|` 表是或，多选一。
 - default表示简单元素的省缺值，fixed表示简单元素的固定值。
 - 常用的data_type：
     - xs:string

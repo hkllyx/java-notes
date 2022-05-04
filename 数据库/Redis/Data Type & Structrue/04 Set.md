@@ -23,9 +23,9 @@
 
 # 使用场景
 
-- 用集合跟踪一个独特的事。想要知道所有访问某个博客文章的独立IP，只要每次都用 `SADD` 来处理一个页面访问。那么你可以肯定重复的IP是不会插入的。
-- Redis集合能很好的表示关系。你可以创建一个tagging系统，然后用集合来代表单个tag。接下来你可以用 `SADD` 命令把所有拥有tag的对象的所有ID添加进集合，这样来表示这个特定的tag。如果你想要同时有3个不同tag的所有对象的所有ID，那么你需要使用 `SINTER`.
-- 使用 `SPOP` 或者 `SRANDMEMBER` 命令随机地获取元素。
+- 用集合跟踪一个独特的事。想要知道所有访问某个博客文章的独立IP，只要每次都用`SADD`来处理一个页面访问。那么你可以肯定重复的IP是不会插入的。
+- Redis集合能很好的表示关系。你可以创建一个tagging系统，然后用集合来代表单个tag。接下来你可以用`SADD`命令把所有拥有tag的对象的所有ID添加进集合，这样来表示这个特定的tag。如果你想要同时有3个不同tag的所有对象的所有ID，那么你需要使用 `SINTER`.
+- 使用`SPOP`或者`SRANDMEMBER`命令随机地获取元素。
 
 # 相关命令
 
@@ -53,7 +53,7 @@ SREM key member [member ...]
 SPOP key [count]
 ```
 - 从存储在key的集合中移除并返回一个或多个随机元素。
-- 此操作与 `SRANDMEMBER` 类似，它从一个集合中返回一个或多个随机元素，但不删除元素。
+- 此操作与`SRANDMEMBER`类似，它从一个集合中返回一个或多个随机元素，但不删除元素。
 - count参数将在更高版本中提供，但是在2.6、2.8、3.0中不可用。
 - 如果count大于集合内部的元素数量，此命令将会返回整个集合，不会有额外的元素。
 
@@ -63,7 +63,7 @@ SPOP key [count]
 SRANDMEMBER key [count]
 ```
 - 仅提供key参数，那么随机返回key集合中的一个元素。
-- 仅提供key参数时，该命令作用类似于 `SPOP` 命令，不同的是 `SPOP` 命令会将被选择的随机元素从集合中移除，而 `SRANDMEMBER` 仅仅是返回该随记元素，而不做任何操作。
+- 仅提供key参数时，该命令作用类似于`SPOP`命令，不同的是`SPOP`命令会将被选择的随机元素从集合中移除，而`SRANDMEMBER`仅仅是返回该随记元素，而不做任何操作。
 - Redis 2.6开始，可以接受count参数：
     - 如果count是整数且小于元素的个数，返回含有count个不同的元素的数组
     - 如果count是个整数且大于集合中元素的个数时，仅返回整个集合的所有元素
@@ -105,7 +105,7 @@ SINTER key [key ...]
 ```
 SINTERSTORE destination key [key ...]
 ```
-- 这个命令与 `SINTER` 命令类似，但是它并不是直接返回结果集，而是将结果保存在destination集合中。
+- 这个命令与`SINTER`命令类似，但是它并不是直接返回结果集，而是将结果保存在destination集合中。
 - 如果destination集合存在，则会被覆盖。
 
 ## SUNION & SUNIONSTORE
@@ -118,7 +118,7 @@ SUNION key [key ...]
 ```
 SUNIONSTORE destination key [key ...]
 ```
-- 该命令作用类似于 `SUNION` 命令，不同的是它并不返回结果集，而是将结果存储在destination集合中。
+- 该命令作用类似于`SUNION`命令，不同的是它并不返回结果集，而是将结果存储在destination集合中。
 - 如果destination已经存在，则将其覆盖。
 
 ## SCARD
@@ -135,7 +135,7 @@ SCARD key
 SMEMBERS key
 ```
 - 返回key集合所有的元素。
-- 该命令的作用与使用一个参数的 `SINTER` 命令作用相同。
+- 该命令的作用与使用一个参数的`SINTER`命令作用相同。
 
 ## SISMEMBER
 
@@ -150,4 +150,4 @@ SISMEMBER key member
 ```
 SSCAN cursor [MATCH pattern] [COUNT count]
 ```
-- 参见Redis Key中 `SCAN` 命令。
+- 参见Redis Key中`SCAN`命令。

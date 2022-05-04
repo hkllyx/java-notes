@@ -181,7 +181,7 @@ git config --global credential.helper store # 存储Github身份验证信息
 
 ### git help & --help
 
-可以使用 `--help` 或 `help` 子命令查看命令帮助信息及文档。
+可以使用`--help`或`help`子命令查看命令帮助信息及文档。
 
 ```
 git --help|help

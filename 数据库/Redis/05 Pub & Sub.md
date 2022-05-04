@@ -52,7 +52,7 @@ PUBLISH channel message
 SUBSCRIBE channel [channel ...]
 ```
 - 指示客户端退订给定的信道，若没有指定信道，则退订所有信道
-- 如果没有信道被指定，即，一个无参数的 `UNSUBSCRIBE` 调用被执行，那么客户端使用 `SUBSCRIBE` 命令订阅的所有信道都会被退订。在这种情况下，命令会返回一个信息，告知客户端所有被退订的信道
+- 如果没有信道被指定，即，一个无参数的`UNSUBSCRIBE`调用被执行，那么客户端使用`SUBSCRIBE`命令订阅的所有信道都会被退订。在这种情况下，命令会返回一个信息，告知客户端所有被退订的信道
 
 ```
 PUNSUBSCRIBE [pattern [pattern ...]]

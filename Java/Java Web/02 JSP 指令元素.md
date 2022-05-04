@@ -65,19 +65,19 @@ page指令用于定义jsp页面的各种属性，无论page指令出现在jsp页
     - 控制页面是否参与HTTP会话。
     - 默认值为true。若存在已有会话，则预定义变量session（类型为HttpSession）应该绑定到现有的会话；否则，创建新的会话并将其绑定到session。
     - false值表示不自动创建会话，在JSP页面转换成servlet时，对变量session的访问会导致错误。
-    - 注意，`session="false"` 并不禁用会话跟踪，它只是阻止JSP页面为那些尚不拥有会话的用户创建新的会话。由于会话是针对用户，不是针对贞面，所以，关闭某个页面的会话跟踪没有任何益处，除非有可能在同一客户会话中访问到的相关页面都关闭会话跟踪。
+    - 注意，`session="false"`并不禁用会话跟踪，它只是阻止JSP页面为那些尚不拥有会话的用户创建新的会话。由于会话是针对用户，不是针对贞面，所以，关闭某个页面的会话跟踪没有任何益处，除非有可能在同一客户会话中访问到的相关页面都关闭会话跟踪。
 - buffer
     - buffer的大小被out对象用于缓存处理执行后的JSP对客户端浏览器的输出。
     - none是指没有任何缓存，直接输出到客户端浏览器。用户可通过指定buffer的大小来指定缓存处理的大小，默认值为8kb。
 - autoFlush
     - 控制当缓冲区充满之后，是应该自动清空输出缓冲区（true），还是在缓冲区溢出后抛出一个异常（false）。
     - 默认值为true。
-    - 在 `buffer="none"` 时，false值是不合法的。
+    - 在`buffer="none"`时，false值是不合法的。
 - isThreadSafe
     - 设置JSP文件是否多线程使用。若为True，那么一个JSP能同事处理多个用户的请求。
     - 默认值为True。
 - info
-    - 定义一个可以在servlet中通过 `getServletInfo()` 方法获取的字符串。
+    - 定义一个可以在servlet中通过`getServletInfo()`方法获取的字符串。
     - 在JSP被执行时， 用来描述当前JSP文件的相关信息。
 - isELIgnored
     - isELIgnored属性控制的是：忽略（true）JSP2.0表达式语言（EL），还是进行正常的求值（false）。

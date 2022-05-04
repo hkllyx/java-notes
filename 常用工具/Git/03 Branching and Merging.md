@@ -1,4 +1,4 @@
-- [分支和合并](#%e5%88%86%e6%94%af%e5%92%8c%e5%90%88%e5%b9%b6)
+- [分支和合并](#分支和合并)
   - [git branch](#git-branch)
   - [git checkout](#git-checkout)
   - [git log](#git-log)
@@ -80,7 +80,7 @@ git checkout <commit>
 git checkout [-p|--patch] [<tree-ish>] [--] <pathspec>...
 ```
 
-当给定pathspec或 `--patch` 选项时，不切换分支。它从索引文件或指定的tree-ish (通常是提交) 中更新工作树中的指定路径。
+当给定pathspec或 `--patch` 选项时，不切换分支。它从索引文件或指定的tree-ish中更新工作树中的指定路径。
 
 常见选项：
 

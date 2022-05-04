@@ -20,7 +20,7 @@ GeoHash将二维的经纬度转换成字符串。
 GEOADD key longitude latitude member [longitude latitude member ...]
 ```
 - 将指定的地理空间位置（纬度、经度、名称）添加到指定的key中
-- 这些数据将会存储到sorted set，目的是为了方便使用 `GEORADIUS` 或者 `GEORADIUSBYMEMBER` 命令对数据进行半径查询等操作
+- 这些数据将会存储到sorted set，目的是为了方便使用`GEORADIUS`或者`GEORADIUSBYMEMBER`命令对数据进行半径查询等操作
 - 该命令以采用标准格式的参数x, y, 所以经度必须在纬度之前。
 - 这些坐标的限制是可以被编入索引的，区域面积可以很接近极点但是不能索引。具体的限制，由EPSG:900913 / EPSG:3785 / OSGEO:41001规定如下：
     - 有效的经度从 -180 ~ 180度。
@@ -50,7 +50,7 @@ GEODIST key member1 member2 [unit]
 ```
 GEOHASH key member [member ...]
 ```
-- 返回有效的Geohash字符串，该字符串表示一个或多个元素在表示地理空间索引的Sorted Set中的位置（其中使用 `GEOADD` 添加元素）。
+- 返回有效的Geohash字符串，该字符串表示一个或多个元素在表示地理空间索引的Sorted Set中的位置（其中使用`GEOADD`添加元素）。
 - 通常，Redis使用Geohash技术的变体使用52位整数编码表示元素的位置。由于编码和解码过程中所使用的初始最小和最大坐标不同，编码的编码也不同于标准。
 - 命令将返回10个字符的Geohash字符串，所以没有精度Geohash，损失相比，使用内部52位表示。返回的geohashes具有以下特性：
     - 他们可以缩短从右边的字符。它将失去精度，但仍将指向同一地区。
@@ -62,8 +62,8 @@ GEOHASH key member [member ...]
 GEOPOS key member [member ...]
 ```
 - 从key里返回所有指定位置元素的位置（经度和纬度）。
-- 对于表示地理空间索引的Sorted Set，使用 `GEOADD` 命令填充索引，通常需要获取指定成员的坐标。当通过 `GEOADD` 填充地理空间索引时，坐标被转换为一个52位的Geohash，因此返回的坐标可能与用于添加元素的坐标不完全相同，可能会引发小的错误。
-- 因为 `GEOPOS` 命令接受可变数量的位置元素作为输入，所以即使用户只给定了一个位置元素，命令也会返回数组回复。
+- 对于表示地理空间索引的Sorted Set，使用`GEOADD`命令填充索引，通常需要获取指定成员的坐标。当通过`GEOADD`填充地理空间索引时，坐标被转换为一个52位的Geohash，因此返回的坐标可能与用于添加元素的坐标不完全相同，可能会引发小的错误。
+- 因为`GEOPOS`命令接受可变数量的位置元素作为输入，所以即使用户只给定了一个位置元素，命令也会返回数组回复。
 
 ## GEORADIUS, GEORADIUSBYMEMBER
 
@@ -80,7 +80,7 @@ GEORADIUS key longitude latitude radius m|km|ft|mi
     | WITHDIST  | 将位置元素与中心之间的距离也一并返回，单位和给定范围单位相同                                                |
     | WITHCOORD | 将位置元素的经度和维度也一并返回                                                                            |
     | WITHHASH  | 以52位无符号整数的形式返回原始geohash-encoded Sorted Set Score，主要用于底层应用或者调试，实际中作用不大 |
-- 在默认情况下， `GEORADIUS` 命令会返回所有匹配的位置元素。虽然用户可以使用COUNT选项去获取前N个匹配元素，但是因为命令在内部可能会需要对所有被匹配的元素进行处理，所以在对一个非常大的区域进行搜索时，即使只使用COUNT选项去获取少量元素，命令的执行速度也可能会非常慢。但是从另一方面来说，使用COUNT选项去减少需要返回的元素数量，对于减少带宽来说仍然是非常有用的。
+- 在默认情况下，`GEORADIUS`命令会返回所有匹配的位置元素。虽然用户可以使用COUNT选项去获取前N个匹配元素，但是因为命令在内部可能会需要对所有被匹配的元素进行处理，所以在对一个非常大的区域进行搜索时，即使只使用COUNT选项去获取少量元素，命令的执行速度也可能会非常慢。但是从另一方面来说，使用COUNT选项去减少需要返回的元素数量，对于减少带宽来说仍然是非常有用的。
 - 命令默认返回未排序的位置元素。通过以下两个参数，用户可以指定被返回位置元素的排序方式：
 
     | 选项 | 说明                                            |
@@ -96,5 +96,5 @@ GEORADIUSBYMEMBER key member radius m|km|ft|mi
     [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count]
     [ASC|DESC] [STORE key] [STOREDIST key]
 ```
-- 这个命令和 `GEORADIUS` 命令一样，都可以找出位于指定范围内的元素
+- 这个命令和`GEORADIUS`命令一样，都可以找出位于指定范围内的元素
 - 但是中心点是由给定的元素决定的， 而不是使用输入的经度和纬度来决定中心点

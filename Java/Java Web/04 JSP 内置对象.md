@@ -11,22 +11,22 @@
   - [page](#page)
   - [exception](#exception)
 - [域对象](#域对象)
-  - [application域](#application-域)
-  - [session域](#session-域)
-  - [request域](#request-域)
-  - [page域](#page-域)
-- [JSP状态管理](#jsp-状态管理)
-  - [Session](#session)
+  - [application域](#application域)
+  - [session域](#session域)
+  - [request域](#request域)
+  - [page域](#page域)
+- [JSP状态管理](#jsp状态管理)
+  - [Session](#session-1)
     - [生命周期](#生命周期)
     - [设置生命周期](#设置生命周期)
   - [Cookie](#cookie)
-    - [Cookie作用与风险](#cookie-作用与风险)
-    - [Cookie使用](#cookie-使用)
-  - [Cookie & Session对比](#cookie--session-对比)
+    - [Cookie作用与风险](#cookie作用与风险)
+    - [Cookie使用](#cookie使用)
+  - [Cookie & Session对比](#cookie--session对比)
 - [重定向与转发](#重定向与转发)
   - [重定向](#重定向)
   - [转发](#转发)
-  - [URL的异同](#url-的异同)
+  - [URL的异同](#url的异同)
 
 # 概述
 
@@ -215,27 +215,27 @@ Servlet配置信息，父类为 `javax.servlet.ServletConfig`
 - PageContext.SESSION_SCOPE（对应session域）
 - PageContext.APPLICATION_SCOPE（对应application域）
 
-**注意：** pageContext只能使用 `setAttribute(String, Object)` 方法设置page域对象，而不能使用 `setAttribute(String, Object, int)` 设置任意域对象
+**注意：** pageContext只能使用`setAttribute(String, Object)`方法设置page域对象，而不能使用`setAttribute(String, Object, int)`设置任意域对象
 
 ## application域
 
 从服务器开始执行服务，到服务器关闭为止，application域的范围最大、停留的时间也最久，所以使用时要特别注意不然可能会造成服务器负载越来越重的情况。
 
-具有application域的对象被绑定到 `javax.servlet.ServletContext` 对象中。在Web应用程序运行期间，所有的页面都可以访问在这个范围内的对象。
+具有application域的对象被绑定到`javax.servlet.ServletContext`对象中。在Web应用程序运行期间，所有的页面都可以访问在这个范围内的对象。
 
 ## session域
 
 Web交互的最基本单位为HTTP请求。每个用户从进入网站到离开网站这段过程称为一个HTTP会话， 一个服务器的运行过程中会有多个用户访问，就是多个HTTP会话。HTTP会话开始到结束这段时间。Session的作用范围为一段用户持续和服务器所连接的时间，但与服务器断线，这个属性就无效了。
 
-Session的开始时刻比较容易判断，它从浏览器发出第一个HTTP请求即可认为会话开始。但结束时刻就不好判断了，因为浏览器关闭时并不会通知服务器，所以只能通过如下这种方法判断：如果一定的时间内客户端没有反应，则认为会话结束。Tomcat的默认值为120分钟，但这个值也可以通过HttpSession的setMaxInactiveInterval () 方法来设置。
+Session的开始时刻比较容易判断，它从浏览器发出第一个HTTP请求即可认为会话开始。但结束时刻就不好判断了，因为浏览器关闭时并不会通知服务器，所以只能通过如下这种方法判断：如果一定的时间内客户端没有反应，则认为会话结束。Tomcat的默认值为120分钟，但这个值也可以通过`HttpSession.setMaxInactiveInterval()`方法来设置。
 
-具有session域的对象被绑定到 `javax.servlet.http.HttpSession` 对象中。
+具有session域的对象被绑定到`javax.servlet.http.HttpSession`对象中。
 
 ## request域
 
 HTTP请求开始到结束这段时间。Request的范围是指在一JSP网页发出请求到另一个JSP网页之间，否则这个属性就失效。一个HTTP请求的处理可能需要多个Servlet合作，而这几个Servlet之间可以通过某种方式传递信息，但这个信息在请求结束后就无效了。
 
-具有request域的对象被绑定到 `javax.servlet.ServletRequest` 对象中。
+具有request域的对象被绑定到`javax.servlet.ServletRequest`对象中。
 
 要注意的是，因为请求对象对于每一个客户请求都是不同的，所以对于每一个新的请求，都要重新创建和删除这个范围内的对象。
 
@@ -243,7 +243,7 @@ HTTP请求开始到结束这段时间。Request的范围是指在一JSP网页发
 
 当前页面从打开到关闭这段时间，它只能在同一个页面中有效。
 
-具有page域的对象被绑定到 `javax.servlet.jsp.PageContext` 对象中。
+具有page域的对象被绑定到`javax.servlet.jsp.PageContext`对象中。
 
 # JSP状态管理
 
@@ -260,7 +260,7 @@ HTTP请求开始到结束这段时间。Request的范围是指在一JSP网页发
 1. 创建
     - 当客户端第一次访问某个jsp或者Servlet时候，服务器会为当前会话创建一个SessionId。
     - 每次客户端向服务端发送请求时，都会将此SessionId携带过去，服务端会对此SessionId进行校验。
-    - 需要注意只有访问JSP、Servlet等程序时才会创建session，只访问HTML、IMAGE等静态资源并不会创建session, 可调用request.getSession (true) 强制生成session。
+    - 需要注意只有访问JSP、Servlet等程序时才会创建session，只访问HTML、IMAGE等静态资源并不会创建session, 可调用`request.getSession(true)`强制生成session。
 
 2. 活动
     - 某次会话当中通过超链接打开的新页面属于同一次会话。
@@ -269,7 +269,7 @@ HTTP请求开始到结束这段时间。Request的范围是指在一JSP网页发
     - 需要注意的是，原有会话还存在，只是这个旧的SessionId仍然存在于服务端，只不过再也没有客户端会携带它然后交予服务端校验。
 
 3. 销毁
-    - 调用 `session.invalidate()` 方法
+    - 调用`session.invalidate()`方法
     - session过期。session的过期时间是从session不活动的时候开始计算，如果session一直活动，session就总不会过期。从该Session未被访问，开始计时； 一旦Session被访问，计时清0;
     - 服务器重新启动
 
@@ -342,7 +342,7 @@ Cookie[] cookies = request.getCookies();
 
 过程：
 1. 客户发送一个请求到服务器，服务器匹配servlet，这都和请求转发一样。
-2. servlet处理完之后调用了response对象的 `sendRedirect(String location)` 方法，向客户端返回这个响应，响应行告诉客户端你必须要再发送一个请求，去访问location。
+2. servlet处理完之后调用了response对象的`sendRedirect(String location)`方法，向客户端返回这个响应，响应行告诉客户端你必须要再发送一个请求，去访问location。
 3. 客户端收到这个信息后，立刻自动发出一个新的请求，去访问location。
     这里两个请求互不干扰，相互独立，在前面request里面setAttribute() 的任何东西，在后面的request里面都获得不了。
 
@@ -354,16 +354,16 @@ Cookie[] cookies = request.getCookies();
 
 过程：
 1. 客户首先发送一个请求到服务器端，服务器端发现匹配的Servlet，并指定它去执行。
-2. 当这个Servlet执行完之后，它要调用request对象的 `getRequestDispatcher(String path).forward(request, response)` 方法，把请求转发给指定的path。
+2. 当这个Servlet执行完之后，它要调用request对象的`getRequestDispatcher(String path).forward(request, response)`方法，把请求转发给指定的path。
     整个流程都是在服务器端完成的，而且是在同一个请求里面完成的，因此两个Servlet共享的是同一个request。
 
 **整个过程是一个请求，一个响应。**
 
 ## URL的异同
 
-- 在重定向时，绝对路径 `/` 表示的是 `localhost:8080/`（假设端口为8080），所以URL需要加上 `/ ProjectName` （项目名)
+- 在重定向时，绝对路径`/`表示的是`localhost:8080/`（假设端口为8080），所以URL需要加上 `/ ProjectName`（项目名)
 
-- 在转发时，绝对路径 `/` 表示 `localhost:8080/ProjectName`。
+- 在转发时，绝对路径`/`表示 `localhost:8080/ProjectName`。
 
 - 相对路径没有区别。
 

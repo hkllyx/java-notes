@@ -40,12 +40,12 @@ Redis的key是二进制安全的字符串（详见String数据类型），这意
 SCAN cursor [MATCH pattern] [COUNT count]
 ```
 - 扫描当前数据库中的key集
-- 使用 `SCAN` 命令和密切相关的命令 `SSCAN`、`HSCAN` 和 `ZSCAN`，以便对元素集合进行增量迭代
+- 使用`SCAN`命令和密切相关的命令`SSCAN`、`HSCAN`和 `ZSCAN`，以便对元素集合进行增量迭代
     - `SSCAN` 用于扫描value为SET的key集
     - `HSCAN` 用于扫描value为HASH的key集
     - `ZSCAN` 用于扫描value为ZSET的key集
 - `SCAN` 命令是一个基于游标的迭代器。这意味着命令每次被调用都需要使用上一次这个调用返回的游标作为该次调用的游标参数，以此来延续之前的迭代过程
-- 当 `SCAN` 命令的游标参数被设置为0时，服务器将开始一次新的迭代，而当服务器向用户返回值为0的游标时，表示迭代已结束。
+- 当`SCAN`命令的游标参数被设置为0时，服务器将开始一次新的迭代，而当服务器向用户返回值为0的游标时，表示迭代已结束。
 - `SCAN` 命令的返回值 是一个包含两个元素的数组，第一个数组元素是用于进行下一次迭代的新游标， 而第二个数组元素则是一个数组，这个数组中包含了所有被迭代的元素。
 - 对于增量式迭代命令不保证每次迭代所返回的元素数量，我们可以使用COUNT选项， 对命令的行为进行一定程度上的调整。默认值为10。
 
@@ -56,7 +56,7 @@ KEYS pattern
 ```
 - 查找所有符合给定模式pattern（正则表达式）的key。
 - 时间复杂度为O (N)，N为数据库里面key的数量。
-- `KEYS` 的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，如果你需要从一个数据集中查找特定的Key集， 你最好还是用 `SETS` 来代替。
+- `KEYS` 的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，如果你需要从一个数据集中查找特定的Key集， 你最好还是用`SETS`来代替。
 - pattern支持的格式
     - `?` 匹配任意字符一次
     - `*` 匹配任意字符任意次
@@ -71,7 +71,7 @@ RENAME key newkey
 RENAMENX key newkey
 ```
 - 将key重命名为newkey，如果key与newkey相同，将返回一个错误。
-- 如果newkey已经存在，对于 `RENAME`newkey的value将被覆盖；对于 `RENAMENX` 则会忽略。
+- 如果newkey已经存在，对于`RENAME`newkey的value将被覆盖；对于 `RENAMENX`则会忽略。
 
 ## TYPE
 
@@ -94,8 +94,8 @@ DEL key [key ...]
 ```
 UNLINK key [key ...]
 ```
-- 该命令和 `DEL` 十分相似：删除指定的key(s), 若key不存在则该key被跳过。
-- 但是，相比 `DEL` 会产生阻塞，该命令会在另一个线程中回收内存，因此它是非阻塞的。
+- 该命令和`DEL`十分相似：删除指定的key(s), 若key不存在则该key被跳过。
+- 但是，相比`DEL`会产生阻塞，该命令会在另一个线程中回收内存，因此它是非阻塞的。
 - 这也是该命令名字的由来：仅将keys从keyspace元数据中删除，真正的删除会在后续异步操作。
 
 ## EXISTS
@@ -113,16 +113,16 @@ EXPIRE key seconds
 PEXPIRE key milliseconds
 ```
 - 设置key的过期时间，超过时间后，将会自动删除该key。在Redis的术语中一个key的相关超时是不确定的。
-- 超时后只有对key执行 `DEL` 命令或者 `SET` 命令或者 `GETSET` 时才会清除。 这意味着，从概念上讲所有改变key的值的操作都会使他清除。
-- 如果key被 `RENAME` 命令修改，相关的超时时间会转移到新key上面。如果新key存在则覆盖。
+- 超时后只有对key执行`DEL`命令或者`SET`命令或者`GETSET`时才会清除。 这意味着，从概念上讲所有改变key的值的操作都会使他清除。
+- 如果key被`RENAME`命令修改，相关的超时时间会转移到新key上面。如果新key存在则覆盖。
 - `PEXPIRE` 类似，只不过他的时间单位是毫秒。
 
 ```
 EXPIREAT key timestamp
 PEXPIREAT key milliseconds-timestamp
 ```
-- `EXPIREAT` 的作用和 `EXPIRE` 类似，都用于为key设置生存时间。不同在于 `EXPIREAT` 命令接受的时间参数是UNIX时间戳Unix timestamp。
-- `PEXPIREAT` 这个命令和 `EXPIREAT` 命令类似，但它以毫秒为单位设置key的过期UNIX时间戳，而不是像 `EXPIREAT` 那样，以秒为单位。
+- `EXPIREAT` 的作用和`EXPIRE`类似，都用于为key设置生存时间。不同在于`EXPIREAT`命令接受的时间参数是UNIX时间戳Unix timestamp。
+- `PEXPIREAT` 这个命令和`EXPIREAT`命令类似，但它以毫秒为单位设置key的过期UNIX时间戳，而不是像`EXPIREAT`那样，以秒为单位。
 
 ## TTL, PTTL
 
@@ -167,7 +167,7 @@ RESTORE key ttl serialized-value [REPLACE]
 ```
 - 反序列化给定的序列化值，并将它和给定的key关联。
 - 参数ttl以毫秒为单位为key设置生存时间；如果ttl为0，那么不设置生存时间。
-- `RESTORE` 在执行反序列化之前会先对序列化值的RDB版本和数据校验和进行检查，如果RDB版本不相同或者数据不完整的话，那么 `RESTORE` 会拒绝进行反序列化，并返回一个错误。
+- `RESTORE` 在执行反序列化之前会先对序列化值的RDB版本和数据校验和进行检查，如果RDB版本不相同或者数据不完整的话，那么`RESTORE`会拒绝进行反序列化，并返回一个错误。
 
 ## RANDOMKEY
 
@@ -183,7 +183,7 @@ MOVE key db
 ```
 - 将当前数据库的key移动到给定的数据库db当中。
 - 如果当前数据库 (源数据库) 和给定数据库 (目标数据库) 有相同名字的给定key，或者key不存在于当前数据库，那么MOVE没有任何效果。
-- 因此，也可以利用这一特性，将 `MOVE` 当作锁 (locking) 原语 (primitive)。
+- 因此，也可以利用这一特性，将`MOVE`当作锁 (locking) 原语 (primitive)。
 
 ## MIGRATE
 
@@ -192,14 +192,14 @@ MIGRATE host port key destination-db timeout [COPY] [REPLACE]
 ```
 - 将key原子性地从当前实例传送到目标实例的指定数据库上，一旦传送成功，key保证会出现在目标实例上，而当前实例上的key会被删除。
 - 这个命令是一个原子操作，它在执行的时候会阻塞进行迁移的两个实例，直到以下任意结果发生：迁移成功，迁移失败，等到超时。
-- 命令的内部实现是这样的：它在当前实例对给定key执行 `DUMP` 命令，将它序列化，然后传送到目标实例，目标实例再使用 `RESTORE` 对数据进行反序列化，并将反序列化所得的数据添加到数据库中；当前实例就像目标实例的客户端那样，只要看到 `RESTORE` 命令返回OK，它就会调用 `DEL` 删除自己数据库上的key。
+- 命令的内部实现是这样的：它在当前实例对给定key执行`DUMP`命令，将它序列化，然后传送到目标实例，目标实例再使用`RESTORE`对数据进行反序列化，并将反序列化所得的数据添加到数据库中；当前实例就像目标实例的客户端那样，只要看到`RESTORE`命令返回OK，它就会调用`DEL`删除自己数据库上的key。
 - timeout参数以毫秒为格式，指定当前实例和目标实例进行沟通的最大间隔时间。这说明操作并不一定要在timeout毫秒内完成，只是说数据传送的时间不能超过这个timeout数。
 - `MIGRATE` 命令需要在给定的时间规定内完成IO操作。如果在传送数据时发生IO错误，或者达到了超时时间，那么命令会停止执行，并返回一个特殊的错误：IOERR。
 - 当IOERR出现时，有以下两种可能：
     - key可能存在于两个实例。
     - key可能只存在于当前实例。
 - 唯一不可能发生的情况就是丢失key，因此，如果一个客户端执行 `MIGRATE`, 命令，并且不幸遇上IOERR错误，那么这个客户端唯一要做的就是检查自己数据库上的key是否已经被正确地删除。
-- 如果有其他错误发生，那么 `MIGRATE` 保证key只会出现在当前实例中。（当然，目标实例的给定数据库上可能有和key同名的键，不过这和 `MIGRATE` 命令没有关系）。
+- 如果有其他错误发生，那么`MIGRATE`保证key只会出现在当前实例中。（当然，目标实例的给定数据库上可能有和key同名的键，不过这和`MIGRATE`命令没有关系）。
 
 ## TOUCH
 
@@ -226,7 +226,7 @@ SORT key [BY pattern] [LIMIT offset count] [GET pattern] [ASC|DESC] [ALPHA] dest
 OBJECT <subcommand> [arg [arg ...]]
 ```
 - `OBJECT` 命令可以在内部调试 (debugging) 给出keys的内部对象，它用于检查或者了解你的keys是否用到了特殊编码的数据类型来存储空间z。
-- 当redis作为缓存使用的时候，你的应用也可能用到这些由 `OBJECT` 命令提供的信息来决定应用层的key的驱逐策略 (eviction policies)
+- 当redis作为缓存使用的时候，你的应用也可能用到这些由`OBJECT`命令提供的信息来决定应用层的key的驱逐策略 (eviction policies)
 - OBJECT支持多个子命令:
     - `OBJECT REFCOUNT` 该命令主要用于调试 (debugging)，它能够返回指定key所对应value被引用的次数.
     - `OBJECT ENCODING` 该命令返回指定key对应value所使用的内部表示 (representation)(译者注：也可以理解为数据的压缩方式).
@@ -250,7 +250,7 @@ WAIT numslaves timeout
     - 当’WAIT’返回时，所有之前的写命令保证接收由WAIT返回的slaves的数量。
     - 如果命令呗当做事务的一部分发送，该命令不阻塞，而是只尽快返回先前写命令的slaves的数量。
     - 如果timeout是0那意味着永远阻塞。
-    - 由于 `WAIT` 返回的是在失败和成功的情况下的slaves的数量。客户端应该检查返回的slaves的数量是等于或更大的复制水平。
+    - 由于`WAIT`返回的是在失败和成功的情况下的slaves的数量。客户端应该检查返回的slaves的数量是等于或更大的复制水平。
 - 一致性（Consistency and WAIT）
     - `WAIT` 不能保证Redis强一致：尽管同步复制是复制状态机的一个部分，但是还需要其他条件。不过，在sentinel和Redis群集故障转移中，WAIT能够增强数据的安全性。
     - 如果写操作已经被传送给一个或多个slave节点，当master发生故障我们极大概率 (不保证100%) 提升一个受到写命令的slave节点为master: 不管是Sentinel还是Redis Cluster都会尝试选slave节点中最优 (日志最新) 的节点，提升为master。
@@ -260,5 +260,5 @@ WAIT numslaves timeout
         - 检测超时的slaves
         - 断开连接后的部分复制
         - 实现 `WAIT`
-    - 在 `WAIT` 实现的案例中，当客户端执行完一个写命令后，针对每一个复制客户端，Redis会为其记录写命令产生的复制偏移量。
-    - 当执行命令 `WAIT` 时，Redis会检测slaves节点是否已确认完成该操作或更新的操作。
+    - 在`WAIT`实现的案例中，当客户端执行完一个写命令后，针对每一个复制客户端，Redis会为其记录写命令产生的复制偏移量。
+    - 当执行命令`WAIT`时，Redis会检测slaves节点是否已确认完成该操作或更新的操作。

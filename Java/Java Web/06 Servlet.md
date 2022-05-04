@@ -35,7 +35,7 @@ Java Servlet是运行在Web或应用服务器上的程序。一个Servlet就是�
 
 Servlet容器也叫做Servlet引擎，是Web服务器或应用程序服务器的一部分，用于在发送的请求和 响应之上提供网络服务，解码基于MIME的请求，格式化基于MIME的响应。
 
-Servlet没有 `main()` 方法， 不能独立运行，它必须被部署到Servlet容器中，由容器来实例化和调用Servlet的方法（如 `doGet()` 和 `doPost()`），Servlet容器在Servlet的生命周期内包容和管理Servlet。在JSP技术推出后，管理和运行Servlet/JSP的容器也称为Web容器。
+Servlet没有`main()`方法， 不能独立运行，它必须被部署到Servlet容器中，由容器来实例化和调用Servlet的方法（如`doGet()`和 `doPost()`），Servlet容器在Servlet的生命周期内包容和管理Servlet。在JSP技术推出后，管理和运行Servlet/JSP的容器也称为Web容器。
 
 ## 执行过程
 
@@ -112,25 +112,25 @@ Servlet是运行在Servlet容器（有时候也叫Servlet引擎，是web服务�
 
 ## 生命周期
 
-Servlet的生命周期通过java.servlet.Servlet接口中的 `init()`、`service()`、和 `destroy()` 方法表示。Servlet的生命周期有四个阶段： 加载并实例化、初始化、请求处理、销毁。
+Servlet的生命周期通过java.servlet.Servlet接口中的`init()`、`service()`、和 `destroy()`方法表示。Servlet的生命周期有四个阶段： 加载并实例化、初始化、请求处理、销毁。
 
 1. **加载并实例化**
     - Servlet容器负责加载和实例化Servelt。
     - 当Servlet容器启动时，或者在容器检测到需要这个Servlet来响应第一个请求时，创建Servlet实例。
-    - 当Servlet容器启动后，Servlet通过类加载器来加载Servlet类，加载完成后再 `new` 一个Servlet对象来完成实例化。
+    - 当Servlet容器启动后，Servlet通过类加载器来加载Servlet类，加载完成后再`new`一个Servlet对象来完成实例化。
 
 2. **初始化**
-    - 在Servlet实例化之后，容器将调用 `init()` 方法，并传递实现ServletConfig接口的对象。
-    - 在 `init()` 方法中，Servlet可以部署描述符中读取配置参数，或者执行任何其他一次性活动。
+    - 在Servlet实例化之后，容器将调用`init()`方法，并传递实现ServletConfig接口的对象。
+    - 在`init()`方法中，Servlet可以部署描述符中读取配置参数，或者执行任何其他一次性活动。
     - 在Servlet的整个生命周期类，`init()` 方法只被调用一次。
 
 3. **请求处理**
     - 当Servlet初始化后，容器就可以准备处理客户机请求了。
-    - 当容器收到对这一Servlet的请求，就调用Servlet的 `service()` 方法，并把请求和响应对象作为参数传递。
-    - 当并行的请求到来时，多个 `service()` 方法能够同时运行在独立的线程中。通过分析ServletRequest或者HttpServletRequest对象，`service()` 方法处理用户的请求，并调用ServletResponse或者HttpServletResponse对象来响应。
+    - 当容器收到对这一Servlet的请求，就调用Servlet的`service()`方法，并把请求和响应对象作为参数传递。
+    - 当并行的请求到来时，多个`service()`方法能够同时运行在独立的线程中。通过分析ServletRequest或者HttpServletRequest对象，`service()` 方法处理用户的请求，并调用ServletResponse或者HttpServletResponse对象来响应。
 
 4. **销毁**
-    - 一旦Servlet容器检测到一个Servlet要被卸载，这可能是因为要回收资源或者因为它正在被关闭，容器会在所有Servlet的 `service()` 线程之后，调用Servlet的 `destroy()` 方法。然后，Servlet就可以进行无用存储单元收集清理。这样Servlet对象就被销毁了。
+    - 一旦Servlet容器检测到一个Servlet要被卸载，这可能是因为要回收资源或者因为它正在被关闭，容器会在所有Servlet的`service()`线程之后，调用Servlet的`destroy()`方法。然后，Servlet就可以进行无用存储单元收集清理。这样Servlet对象就被销毁了。
 
 ![Servlet生命周期](img/003.png)
 
@@ -169,27 +169,27 @@ JSP生命周期就是从创建到销毁的整个过程，类似于servlet生命�
     - 编译servlet。
 
 2. **JSP初始化**
-    容器载入JSP文件后，它会在为请求提供任何服务前调用 `JSPInit()` 方法。如果您需要执行自定义的JSP初始化任务，复写该方法就行了，就像下面这样：
+    容器载入JSP文件后，它会在为请求提供任何服务前调用`JSPInit()`方法。如果您需要执行自定义的JSP初始化任务，复写该方法就行了，就像下面这样：
     ```
     public void JSPInit(){
         // 初始化代码
     }
     ```
-    一般来讲程序只初始化一次，servlet也是如此。通常情况下您可以在 `JSPInit()` 方法中初始化数据库连接、打开文件和创建查询表。
+    一般来讲程序只初始化一次，servlet也是如此。通常情况下您可以在`JSPInit()`方法中初始化数据库连接、打开文件和创建查询表。
 
 3. **JSP执行**
     这一阶段描述了JSP生命周期中一切与请求相关的交互行为，直到被销毁。
-    当JSP网页完成初始化后，JSP引擎将会调用 `_JSPService()` 方法。该方法需要一个HttpServletRequest对象和一个HttpServletResponse对象作为它的参数，就像下面这样：
+    当JSP网页完成初始化后，JSP引擎将会调用`_JSPService()`方法。该方法需要一个HttpServletRequest对象和一个HttpServletResponse对象作为它的参数，就像下面这样：
     ```
     void _JSPService(HttpServletRequest request, HttpServletResponse response) {
         // 服务端处理代码
     }
     ```
-    `_JSPService()` 方法在每个request中被调用一次并且负责产生与之相对应的response，并且它还负责产生所有7个HTTP方法的回应，比如GET、POST、DELETE等等。
+`_JSPService()`   `_JSPService()` 方法在每个request中被调用一次并且负责产生与之相对应的response，并且它还负责产生所有7个HTTP方法的回应，比如GET、POST、DELETE等等。
 
 4. **JSP清理**
     JSP生命周期的销毁阶段描述了当一个JSP网页从容器中被移除时所发生的一切。
-    `JSPDestroy()` 方法在JSP中等价于servlet中的销毁方法。当您需要执行任何清理工作时复写该方法，比如释放数据库连接或者关闭文件夹等等。
+`JSPDestroy()`   `JSPDestroy()` 方法在JSP中等价于servlet中的销毁方法。当您需要执行任何清理工作时复写该方法，比如释放数据库连接或者关闭文件夹等等。
     ```
     public void JSPDestroy() {
         // 清理代码
@@ -288,22 +288,22 @@ public @interface WebServlet {
     http://localhost:8080/ContextPath/demo/index.jsp
     http://localhost:8080/ContextPath/servletName
     ```
-    - 注意：`http://localhost:8080/ContextPath/servletName/` （结尾多斜杠）是非法的URL，不会被当做 `http://localhost:8080/ContextPath/servletName` 识别。
+    - 注意：`http://localhost:8080/ContextPath/servletName/` （结尾多斜杠）是非法的URL，不会被当做`http://localhost:8080/ContextPath/servletName`识别。
     - 另外上述URL后面可以跟任意的查询条件，都会被匹配，如 `http://localhost:8080/ContextPath/servletName?param=value`
 
 - 路径匹配
     ```
     <url-pattern>/demo/*</url-pattern>
     ```
-    - 以 `/` 字符开头，并以 `/*` 结尾的字符串用于路径匹配。如果可以匹配多个路径，那么以最长的为结果。
-    - 路径以 `/demo/*` 开始，后面的路径可以任意。如： `http://localhost:8080/ContextPath/demo/index.html`
+    - 以`/`字符开头，并以`/*`结尾的字符串用于路径匹配。如果可以匹配多个路径，那么以最长的为结果。
+    - 路径以`/demo/*`开始，后面的路径可以任意。如： `http://localhost:8080/ContextPath/demo/index.html`
 
 - 扩展名匹配
     ```
     <url-pattern>*.jsp</url-pattern>
     <url-pattern>*.html</url-pattern>
     ```
-    - 以 `*.` 开头的字符串被用于扩展名匹配，则任何扩展名为jsp或action的URL请求都会匹配，* 前面不能有东西，不能和路径匹配一起用，比如` /demo/*.jsp` 是不允许的。
+    - 以`*.`开头的字符串被用于扩展名匹配，则任何扩展名为jsp或action的URL请求都会匹配，* 前面不能有东西，不能和路径匹配一起用，比如` /demo/*.jsp` 是不允许的。
 
 - 省缺（`/`）
     ```
@@ -319,7 +319,7 @@ public @interface WebServlet {
 
 ### `\*` & `\`
 
-- `/*` 属于路径匹配，并且可以匹配所有request，由于路径匹配的优先级仅次于精确匹配，所以 `/*` 会覆盖所有的扩展名匹配，很多404错误均由此引起，所以这是一种特别恶劣的匹配模式，一般只用于filter的url-pattern
+- `/*` 属于路径匹配，并且可以匹配所有request，由于路径匹配的优先级仅次于精确匹配，所以`/*`会覆盖所有的扩展名匹配，很多404错误均由此引起，所以这是一种特别恶劣的匹配模式，一般只用于filter的url-pattern
 - `/` 是servlet中特殊的匹配模式，切该模式有且仅有一个实例，优先级最低，不会覆盖其他任何url-pattern，只是会替换servlet容器的内建default servlet，该模式同样会匹配所有request。
 
 [servlet和filter的url-pattern匹配规则详细描述](https://juejin.im/post/5af3b6cf518825671d20939a)

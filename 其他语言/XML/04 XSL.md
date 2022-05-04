@@ -1,20 +1,20 @@
 - [概述](#概述)
-  - [CSS和XSL](#css-和-xsl)
-  - [XSL包含三部分](#xsl-包含三部分)
+    - [CSS和XSL](#css和xsl)
+    - [XSL包含三部分](#xsl包含三部分)
 - [XPath](#xpath)
-  - [Xpath术语](#xpath-术语)
-  - [位置路径表达式](#位置路径表达式)
-  - [选取节点](#选取节点)
-  - [Xpath谓语（Predicates）](#xpath-谓语predicates)
-  - [`*` 和 `|`](#-和-)
-  - [Xpath轴](#xpath-轴)
-  - [XPath运算符](#xpath-运算符)
-  - [Xpath函数](#xpath-函数)
+    - [Xpath术语](#xpath术语)
+    - [位置路径表达式](#位置路径表达式)
+    - [选取节点](#选取节点)
+    - [Xpath谓语（Predicates）](#xpath谓语predicates)
+    - [`*` 和 `|`](#-和-)
+    - [Xpath轴](#xpath轴)
+    - [XPath运算符](#xpath运算符)
+    - [Xpath函数](#xpath函数)
 - [XSLT](#xslt)
-  - [XSLT元素](#xslt-元素)
-  - [XSLT函数](#xslt-函数)
+    - [XSLT元素](#xslt元素)
+    - [XSLT函数](#xslt函数)
 - [XSL-FO](#xsl-fo)
-  - [XSL-FO区域](#xsl-fo-区域)
+    - [XSL-FO区域](#xsl-fo区域)
 
 # 概述
 
@@ -26,7 +26,7 @@
 
 - CSS = HTML样式表
     - HTML使用预先定义的标签，标签的意义很容易被理解。
-    - HTML元素中的 `<table>` 元素定义表格 - 并且浏览器清楚如何显示它。
+    - HTML元素中的`<table>`元素定义表格 - 并且浏览器清楚如何显示它。
     - 向HTML元素添加样式是很容易的。通过CSS，很容易告知浏览器用特定的字体或颜色显示一个元素。
 - XSL = XML样式表
     - XML不使用预先定义的标签（我们可以使用任何喜欢的标签名），并且这些标签的意义并不都那么容易被理解。
@@ -97,7 +97,7 @@ axes::node-test[predicate]
 ## 选取节点
 
 - XPath使用路径表达式来选取XML文档中的节点或节点集。
-- 节点是通过沿着路径 (path) 或者步 (steps) 来选取的。
+- 节点是通过沿着路径或者步来选取的。
 
 | 表达式   | 描述                                                     |
 | -------- | -------------------------------------------------------- |
@@ -186,7 +186,7 @@ XPath表达式可返回节点集、字符串、逻辑值以及数字。
 
 XSL转换 （XSL Transformations, XSTL）是一种用于将XML文档转换为XHTML文档或其他XML文档的语言。
 - XSLT用于将一种XML文档转换为另外一种XML文档，或者可被浏览器识别的其他类型的文档，比如HTML和XHTML。
-    - 通常，XSLT是通过把每个XML元素转换为 (X) HTML元素来完成这项工作的。
+    - 通常，XSLT是通过把每个XML元素转换为HTML元素来完成这项工作的。
     - 通过XSLT，您可以向或者从输出文件添加或移除元素和属性。
     - 也可重新排列元素，执行测试并决定隐藏或显示哪个元素，等等。
     - 描述转化过程的一种通常的说法是，XSLT把XML源树转换为XML结果树。

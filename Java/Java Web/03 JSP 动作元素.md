@@ -1,21 +1,21 @@
 - [概述](#概述)
 - [重要动作](#重要动作)
-  - [useBean动作](#usebean-动作)
-    - [Java Beans](#java-beans)
-      - [编写规范](#编写规范)
-      - [编写要求](#编写要求)
-      - [作用区域](#作用区域)
-      - [Java beans实例查找](#java-beans-实例查找)
-    - [useBean执行步骤](#usebean-执行步骤)
-    - [useBean总结](#usebean-总结)
-  - [setProperty动作](#setproperty-动作)
-  - [getProperty动作](#getproperty-动作)
-  - [include动作](#include-动作)
-    - [与include指令比较](#与-include-指令比较)
-  - [forward动作](#forward-动作)
-  - [plugin动作](#plugin-动作)
-  - [element动作](#element-动作)
-  - [attribute动作](#attribute-动作)
+    - [useBean动作](#usebean动作)
+        - [Java Beans](#java-beans)
+            - [编写规范](#编写规范)
+            - [编写要求](#编写要求)
+            - [作用区域](#作用区域)
+            - [Java beans实例查找](#java-beans实例查找)
+        - [useBean执行步骤](#usebean执行步骤)
+        - [useBean总结](#usebean总结)
+    - [setProperty动作](#setproperty动作)
+    - [getProperty动作](#getproperty动作)
+    - [include动作](#include动作)
+        - [与include指令比较](#与include指令比较)
+    - [forward动作](#forward动作)
+    - [plugin动作](#plugin动作)
+    - [element动作](#element动作)
+    - [attribute动作](#attribute动作)
 
 # 概述
 
@@ -94,7 +94,7 @@ Bean的含义是可重复使用的Java组件。所谓组件就是一个由可以
 
 #### 编写要求
 
-- 所有的JavaBean必须放在一个包 (Package) 中。
+- 所有的JavaBean必须放在一个包中。
 - JavaBean必须生成public class类，文件名称应该与类名称一致。
 - 所有属性必须封装，一个JavaBean类不应有公共实例变量，类变量都为private。
 - 属性值应该通过一组存取方法（getXxx和setXxx）来访问：对于每个属性，应该有一个带 匹配公用getter和setter方法的专用实例变量。
@@ -107,39 +107,39 @@ Bean的含义是可重复使用的Java组件。所谓组件就是一个由可以
 
 - request
     - 与JSP的request生命周期相对应，JavaBean的生命周期存在于request对象之中， 当request对象销毁时JavaBean也被销毁。
-    - 使用 `<jsp:forward>` 重定向或使用 `<jsp:include>` 动作导入jsp程序时，定义的对象会被传到下一个程序中，下一个程序可以任意调用此对象的内容。
-    - 可以通过 `HttpRequest.getAttribute(...)` 方法获取javabean对象。
+    - 使用`<jsp:forward>`重定向或使用`<jsp:include>`动作导入jsp程序时，定义的对象会被传到下一个程序中，下一个程序可以任意调用此对象的内容。
+    - 可以通过`HttpRequest.getAttribute(...)`方法获取javabean对象。
 
 - session
     - 与JSP的session生命周期相对应，JavaBean的生命周期存在于session会话之中， 当session超时或会话结束时JavaBean被销毁。
-    - 可以通过 `HttpSession.getAttribute(...)` 方法获取javabean对象。
+    - 可以通过`HttpSession.getAttribute(...)`方法获取javabean对象。
 
 - application
     - 与JSP的application生命周期相对应，在各个用户与服务器之间共享，只有当服务器 关闭时JavaBean才被销毁。
-    - 可以通过 `ServletContext.getAttribute(...)` 方法获取javabean对象。
+    - 可以通过`ServletContext.getAttribute(...)`方法获取javabean对象。
 
 #### Java beans实例查找
 
-当JavaBean被创建后，通过 `<jsp:setProperty>` 与 `<jsp:getProperty>` 调用时，将会按照page、request、session和application的顺序来查找这个JavaBean实例， 直至找到一个实例对象为止，如果在这4个范围内都找不到JavaBean实例，则抛出异常。
+当JavaBean被创建后，通过`<jsp:setProperty>`与`<jsp:getProperty>`调用时，将会按照page、request、session和application的顺序来查找这个JavaBean实例， 直至找到一个实例对象为止，如果在这4个范围内都找不到JavaBean实例，则抛出异常。
 
 ### useBean执行步骤
 
-元素用来定位或初始化一个JavaBeans组件。首先会尝试定位Bean实例，如果其不存在，则会依据class名称 (class属性指定) 或序列化模板 (beanName属性指定) 进行实例化。进行定位或初始化Bean对象时，<jsp:useBean > 按照以下步骤执行。
+元素用来定位或初始化一个JavaBeans组件。首先会尝试定位Bean实例，如果其不存在，则会依据class名称或序列化模板进行实例化。进行定位或初始化Bean对象时，<jsp:useBean > 按照以下步骤执行。
 
-1. 尝试在scope属性指定的作用域使用你指定的名称 (id属性值) 定位Bean对象；
-2. 使用指定的名称 (id属性值) 定义一个引用类型变量；
+1. 尝试在scope属性指定的作用域使用你指定的名称定位Bean对象；
+2. 使用指定的名称定义一个引用类型变量；
 3. 假如找到Bean对象，将其引用给步骤2定义的变量。假如你指定类型 (type属性)，赋予该Bean对象该类型；
-4. 假如没找到，则实例化一个新的Bean对象，并将其引用给步骤2定义的变量。假如该类名 (由beanName属性指定的类名) 代表的是一个序列化模板 (serialized template)，该Bean对象由 `java.beans.Beans.instantiate()` 方法初始化；
-5. 假如useBean此次是实例化Bean对象而不是定位Bean对象，且它有体标记 (body tags) 或元素 (位于useBean标签之间的内容，则执行该体标记，比如 `<jsp:setProperty>`。
+4. 假如没找到，则实例化一个新的Bean对象，并将其引用给步骤2定义的变量。假如该类名代表的是一个序列化模板 (serialized template)，该Bean对象由`java.beans.Beans.instantiate()`方法初始化；
+5. 假如useBean此次是实例化Bean对象而不是定位Bean对象，且它有体标记或元素 (位于useBean标签之间的内容，则执行该体标记，比如 `<jsp:setProperty>`。
 
 ### useBean总结
 
 - scope在属性当中非常重要，是因为useBean只有在不存在具有相同id和scope的对象时才 会实例化新的对象；如果已有id和scope都相同的对象则直接使用已有的对象，此时useBean开始标记和结束标记之间的任何内容都将被忽略。
 - class和beanName不能同时存在；它们用来指定实例化的类名称或序列化模板；如果确信JavaBean对象已存在，class和beanName属性均可无须指定，可只须指定type属性。
 - class可以省去type独自存在，beanName必须和type一起使用；class指定的是类名，beanName指定的是类名或序列化模板的名称；class指定的类名必须包含public、无参的构造方法；在对象已实例化时，beanName指定的名称可以为其接口、父类；
-- class或beanName指定的类名必须包括包名，type可以省去包名，通过 `<%@page import="..."%>` 指定所属包亦可。
+- class或beanName指定的类名必须包括包名，type可以省去包名，通过`<%@page import="..."%>`指定所属包亦可。
 - 如果JavaBean对象已存在，useBean只是用来定位JavaBean，则只需使用type属性即可，class和beanName这时舍去不影响使用。
-- class通过 `new` 创建JavaBean对象；beanName通过 `java.beans.Beans.instantiate()` 方法初始化JavaBean对象。
+- class通过`new`创建JavaBean对象；beanName通过`java.beans.Beans.instantiate()`方法初始化JavaBean对象。
 
 ## setProperty动作
 
@@ -154,7 +154,7 @@ setProperty用来和useBean一起协作。设置已经实例化的Bean对象的�
 ```
 - **name** 属性是必需的。它表示要设置属性的是哪个Bean。
 - **property** 属性是必需的。它表示要设置哪个属性。有一个特殊用法：如果property的值是 "*"， 表示所有名字和Bean属性名字匹配的请求参数都将被传递给相应的属性set方法。
-- **value** 属性是可选的。该属性用来指定Bean属性的值。字符串数据会在目标类中通过标准的 `valueOf(...)` 方法自动转换成数字、boolean、Boolean、byte、Byte、char、Character。
+- **value** 属性是可选的。该属性用来指定Bean属性的值。字符串数据会在目标类中通过标准的`valueOf(...)`方法自动转换成数字、boolean、Boolean、byte、Byte、char、Character。
 - **param** 是可选的。它指定用哪个请求参数作为Bean属性的值。如果当前请求没有参数，则什么事情 也不做，系统不会把null传递给Bean属性的set方法。因此，你可以让Bean自己提供默认属性值， 只有当请求参数明确指定了新值时才修改默认属性值。
 - value和param不能同时使用，但可以使用其中任意一个。value是自定义属性的值，param是将请 求参数（比如前端表单数据）作为值注入到该property中。
 
@@ -179,8 +179,8 @@ setProperty用来和useBean一起协作。设置已经实例化的Bean对象的�
 ### 与include指令比较
 
 - 编译成servlet区别
-    - include指令：我们知道JSP文件本身就是servlet，然而JSP文件需要预先编译成servlet， 也就是class文件，而 `<%@ include %>` 页面jsp在请求之前就已经进行了预编译，所有代码包含进来之后，一起进行处理，把所有代码合在一起，编译成一个servlet！
-    - include动作：所有JSP文件代码分别处理，是在页面被请求的时候才进行编译，将多个jsp文 件编译成多个servlet，页面语法相对独立，处理完成之后再将代码的显示结果（处理结果）组合进来。如果被包含文件是动态的，那么就会生成两个Servlet，也就是被包含文件也要经过jsp引擎编译执行生成一个Servlet，两个Servlet通过request和response进行通信。如果被包含的文件是静态的，那么这种情况和 `<%@ include %>` 就很相似，只生成了一个Servlet，但是他们之间没有进行简单的嵌入，而依然是通过request和response进行的通信。
+    - include指令：我们知道JSP文件本身就是servlet，然而JSP文件需要预先编译成servlet， 也就是class文件，而`<%@ include %>`页面jsp在请求之前就已经进行了预编译，所有代码包含进来之后，一起进行处理，把所有代码合在一起，编译成一个servlet！
+    - include动作：所有JSP文件代码分别处理，是在页面被请求的时候才进行编译，将多个jsp文 件编译成多个servlet，页面语法相对独立，处理完成之后再将代码的显示结果（处理结果）组合进来。如果被包含文件是动态的，那么就会生成两个Servlet，也就是被包含文件也要经过jsp引擎编译执行生成一个Servlet，两个Servlet通过request和response进行通信。如果被包含的文件是静态的，那么这种情况和`<%@ include %>`就很相似，只生成了一个Servlet，但是他们之间没有进行简单的嵌入，而依然是通过request和response进行的通信。
 
 - 用法区别
     - include指令：当JSP转换成Servlet时引入指定文件，`<%@ include file="head.jsp" %>`
@@ -267,4 +267,4 @@ jsp:forward动作之后的代码是不会执行的。
 
 它有两个属性：**name** 和 **trim**。
 - 其中name的值就是标签的属性名称。
-- trim可为true或false。假若为true时， `<jsp:attribute>` 本体内容的前后空白，将被忽略；反之，若为false，前后空白将不被忽略。trim的默认值为true。
+- trim可为true或false。假若为true时，`<jsp:attribute>`本体内容的前后空白，将被忽略；反之，若为false，前后空白将不被忽略。trim的默认值为true。

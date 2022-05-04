@@ -27,7 +27,7 @@
 - 浏览器发出的请求先递交给第一个filter进行过滤，符合规则则放行，递交给filter链中的下一个过滤器进行过滤。
 - 过滤器在链中的顺序与它在web.xml中配置的顺序有关，配置在前的则位于链的前端。
 - 当请求通过了链中所有过滤器后就可以访问资源文件了，如果不能通过，则可能在中间某个过滤器中被处理掉。
-- 在 `doFilter()` 方法中，方法前的一般是对request执行的过滤操作，方法后的代码一般是对response执行的操作。
+- 在`doFilter()`方法中，方法前的一般是对request执行的过滤操作，方法后的代码一般是对response执行的操作。
 ![](img/007.png)
 
 ## 生命周期
@@ -37,19 +37,19 @@
     - 容器启动程序时执行，且执行一次。
 
 2. **初始化**
-    - Web容器调用 `init(FilterConfig)` 来初始化过滤器。容器在调用该方法时，向过滤器传递FilterConfig对象，FilterConfig的用法和ServletConfig类似。
+    - Web容器调用`init(FilterConfig)`来初始化过滤器。容器在调用该方法时，向过滤器传递FilterConfig对象，FilterConfig的用法和ServletConfig类似。
     - 利用FilterConfig对象可以得到ServletContext对象，以及在web.xml中配置的过滤器的初始化参数。
     - 在这个方法中，可以抛出ServletException异常，通知容器该过滤器不能正常工作。此时的Web容器启动失败，整个应用程序不能够被访问。
     - 容器启动程序时执行，且执行一次。
 
 3. **过滤**
-    - `doFilter()` 方法类似于Servlet接口的 `service()` 方法。当客户端请求目标资源的时候，容器会筛选出符合filter-mapping中的url-pattern的filter，并按照声明filter-mapping的顺序依次调用这些filter的doFilter方法。
-    - 在这个链式调用过程中，可以调用 `chain.doFilter(ServletRequest, ServletResponse)` 将请求传给下一个过滤器 (或目标资源)，也可以直接向客户端返回响应信息，或者利用RequestDispatcher的forward和include方法，以及HttpServletResponse的sendRedirect方法将请求转向到其它资源。
+    - `doFilter()` 方法类似于Servlet接口的`service()`方法。当客户端请求目标资源的时候，容器会筛选出符合filter-mapping中的url-pattern的filter，并按照声明filter-mapping的顺序依次调用这些filter的doFilter方法。
+    - 在这个链式调用过程中，可以调用`chain.doFilter(ServletRequest, ServletResponse)`将请求传给下一个过滤器 (或目标资源)，也可以直接向客户端返回响应信息，或者利用RequestDispatcher的forward和include方法，以及HttpServletResponse的sendRedirect方法将请求转向到其它资源。
     - 需要注意的是，这个方法的请求和响应参数的类型是ServletRequest和ServletResponse，也就是说，过滤器的使用并不依赖于具体的协议。
-    - 程序第一次运行，会在servlet调用 `init()` 方法以后调用，不管第几次，都在调用 `doGet()`, `doPost()` 方法之前。
+    - 程序第一次运行，会在servlet调用`init()`方法以后调用，不管第几次，都在调用`doGet()`, `doPost()`方法之前。
 
 4. **销毁**
-    - Web容器调用 `destroy()` 方法指示过滤器的生命周期结束。在这个方法中，可以释放过滤器使用的资源。
+    - Web容器调用`destroy()`方法指示过滤器的生命周期结束。在这个方法中，可以释放过滤器使用的资源。
     - 与开发Servlet不同的是，Filter接口并没有相应的实现类可供继承，要开发过滤器，只能直接实现Filer接口。
 
 ## Filter配置
@@ -86,9 +86,9 @@
     - **url-pattern** 指定访问Servlet的URL
     - **servlet-name** 指定要过滤的Servlet
     - **dispatcher** 指定过滤器所拦截的资源被Servlet容器调用的方式，可以是REQUEST, INCLUDE,FORWARD和ERROR之一，默认REQUEST。用户可以设置多个dispatcher子元素用来指定Filter对资源的多种调用方式进行拦截。
-        - REQUEST：当用户直接访问页面时，Web容器将会调用过滤器。如果目标资源是通过RequestDispatcher的include () 或forward () 方法访问时，那么该过滤器就不会被调用。
-        - INCLUDE：如果目标资源是通过RequestDispatcher的include () 方法访问时，那么该过滤器将被调用。除此之外，该过滤器不会被调用。
-        - FORWARD：如果目标资源是通过RequestDispatcher的forward () 方法访问时，那么该过滤器将被调用，除此之外，该过滤器不会被调用。
+        - REQUEST：当用户直接访问页面时，Web容器将会调用过滤器。如果目标资源是通过`RequestDispatcher.include()/forward()`方法访问时，那么该过滤器就不会被调用。
+        - INCLUDE：如果目标资源是通过`RequestDispatcher.include()`方法访问时，那么该过滤器将被调用。除此之外，该过滤器不会被调用。
+        - FORWARD：如果目标资源是通过`RequestDispatcher.forward()`方法访问时，那么该过滤器将被调用，除此之外，该过滤器不会被调用。
         - ERROR：如果目标资源是通过声明式异常处理机制调用时，那么该过滤器将被调用。除此之外，过滤器不会被调用。
         - ASYNC：servlet 3.0 / javaEE 6新增，用于异步处理。
 

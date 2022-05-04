@@ -82,7 +82,7 @@ HGET key field
 HMGET key field [field ...]
 ```
 - 返回key指定的哈希集中指定字段的值。
-- 对于哈希集中不存在的每个字段，返回nil值。因为不存在的keys被认为是一个空的哈希集，对一个不存在的key执行 `HMGET` 将返回一个只含有nil值的列表
+- 对于哈希集中不存在的每个字段，返回nil值。因为不存在的keys被认为是一个空的哈希集，对一个不存在的key执行`HMGET`将返回一个只含有nil值的列表
 
 ```
 HGETALL key
@@ -136,4 +136,4 @@ HEXISTS key field
 ```
 ZSCAN key cursor [MATCH pattern] [COUNT count]
 ```
-- 参见Redis Key中 `SCAN` 命令。
+- 参见Redis Key中`SCAN`命令。
