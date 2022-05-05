@@ -58,7 +58,7 @@ XADD key MAXLEN [~] count field string [field string ...]
 - 上限Stream：可以使用MAXLEN选项来限制Stream中的最大元素数量。
 - 与使用`XADD`添加Entry相比较，使用MAXLEN修整会很昂贵：Stream由宏节点表示为基数树，以便非常节省内存。改变由几十个元素组成的单个宏节点不是最佳的。因此可以使用以下特殊形式提供命令：
     ```
-    XADD mystream MAXLEN ~ 1000 * ... entry fields here ...
+    XADD mystream MAXLEN~1000 * ... entry fields here ...
     ```
     - 在选项MAXLEN和实际计数中间的参数 "~" 的意思是：用户不是真的需要精确的1000个项目。它可以多几十个条目，但决不能少于1000个。通过使用这个参数，仅当我们移除整个节点的时候才执行修整。这使得命令更高效，而且这也是我们通常想要的。
 
@@ -207,7 +207,7 @@ XRANGE key start end [COUNT count]
 ```
 XREVRANGE key end start [COUNT count]
 ```
-- 此命令与`XRANGE`完全相同，但显著的区别是以相反的顺序返回条目，并以相反的顺序获取开始 ~ 结束参数。
+- 此命令与`XRANGE`完全相同，但显著的区别是以相反的顺序返回条目，并以相反的顺序获取开始~结束参数。
 
 ## XREAD, XREADGROUP
 

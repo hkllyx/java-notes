@@ -21,7 +21,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
  */
 private static final int MAXIMUM_CAPACITY = 1 << 30;
 
-/** Hash表默认容量，必须是2次幂，从1 ~ MAXIMUM_CAPACITY */
+/** Hash表默认容量，必须是2次幂，从1~MAXIMUM_CAPACITY */
 private static final int DEFAULT_CAPACITY = 16;
 
 /** 最大的数组长度，用于toArray及相关方法 */

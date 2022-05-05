@@ -186,7 +186,7 @@ public boolean addAll(int index, Collection<? extends E> c) {
 }
 
 private void rangeCheckForAdd(int index) {
-    // 指定位置在0 ~ size之间（不包括0和size）
+    // 指定位置在0~size之间（不包括0和size）
     if (index > size || index < 0)
         throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
 }
@@ -914,8 +914,8 @@ public class ArrayDeque<E> extends AbstractCollection<E>
 
     /**
      * 队列尾
-     * 当head < tail时，head ~ tail内的元素就是入队的元素
-     * 当head > tail时，head ~ elements[elements.length - 1]、elements[0]内的元素就是入队的元素
+     * 当head < tail时，head~tail内的元素就是入队的元素
+     * 当head > tail时，head~elements[elements.length - 1]、elements[0]内的元素就是入队的元素
      * 当head == tail时，说明elements已经放满，再添加元素需要扩容
      */
     transient int tail;
@@ -985,7 +985,7 @@ public void addLast(E e) {
         throw new NullPointerException();
     elements[tail] = e;
     // (tail + 1) & (elements.length - 1)相当于tail + 1对elements.length取模（参考HashMap）
-    // 如过head ~ elements.length都放满了，开始放到0 ~ head之间
+    // 如过head~elements.length都放满了，开始放到0~head之间
     // head == tail，放满了，容量扩展一倍
     if ( (tail = (tail + 1) & (elements.length - 1)) == head)
         doubleCapacity();
@@ -1010,9 +1010,9 @@ private void doubleCapacity() {
     if (newCapacity < 0)
         throw new IllegalStateException("Sorry, deque too big");
     Object[] a = new Object[newCapacity];
-    // head ~ n - 1的元素放到新数组的0 ~ r - 1
-    // tail ~ head - 1的元素放到新数组的r ~ n - 1
-    // 使旧数组的元素按head ~ tail顺序放置于新数组的前半部分
+    // head~n - 1的元素放到新数组的0~r - 1
+    // tail~head - 1的元素放到新数组的r~n - 1
+    // 使旧数组的元素按head~tail顺序放置于新数组的前半部分
     System.arraycopy(elements, p, a, 0, r);
     System.arraycopy(elements, 0, a, r, p);
     elements = a;
