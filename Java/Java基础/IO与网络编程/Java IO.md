@@ -266,8 +266,8 @@ surrogate pair是由两个`char`值组成。高surrogate为`\uD800`-`\uDBFF`，�
 - gbk：中文字符占2个字节，英文字符占1个字节；
 - utf-8：中文字符占3个字节，英文字符占1个字节；
 - utf-16：中文字符和英文字符都占2字节。
-    - utf-16be：be指Big Endian（大头）。例如：`a`（ascii为`0x61`），使用utf-16be就是`[0x00,0x61]`。
-    - utf-16le，le指Little Endian（小头）。例如：`a`（ascii为`0x61`），使用utf-16le就是`[0x61,0x00]`。
+  - utf-16be：be指Big Endian（大头）。例如：`a`（ascii为`0x61`），使用utf-16be就是`[0x00,0x61]`。
+  - utf-16le，le指Little Endian（小头）。例如：`a`（ascii为`0x61`），使用utf-16le就是`[0x61,0x00]`。
 
 Java的内存编码使用双字节编码utf-16be，这不是指Java只支持这一种编码方式，而是说`char`这种类型使用utf-16be进行编码。`char`类型占16位，也就是两个字节，Java使用这种双字节编码是为了让一个中文或者一个英文都能使用一个`char`来存储。
 

@@ -157,11 +157,11 @@ HotSpot虚拟机提供了多种垃圾收集器，每种收集器都有各自的�
 - 多条垃圾收集线程工作，用户线程处于等待状态。
 - 适合于吞吐量的系统。
 - 开启方法：
-    - `-XX:+UseParallelGC`
-    - `-XX:+UseParallelOldGC`
-    - `-XX:ParallelGCThreads`
-    - `-XX:MaxGCPauseMills`
-    - `-XX:GCTimeRatio`
+  - `-XX:+UseParallelGC`
+  - `-XX:+UseParallelOldGC`
+  - `-XX:ParallelGCThreads`
+  - `-XX:MaxGCPauseMills`
+  - `-XX:GCTimeRatio`
 
 并发（Concurrent）
 

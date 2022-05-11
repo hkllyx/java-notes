@@ -61,7 +61,7 @@ private T setInitialValue() {
 }
 ```
 
-# 内部嵌套类`ThreadLocalMap`
+## 内部嵌套类`ThreadLocalMap`
 
 `ThreadLocalMap`是一个定制的散列映射，只适合维护线程本地值。在`ThreadLocal`类之外不能进行任何操作。类是包私有的，允许在类线程中声明字段。为了帮助处理非常大且长期存在的使用，哈希表的`Entry`继承自`WeakReference`。但是，由于不使用引用队列，所以只有当表开始耗尽空间时，才保证删除旧的`Entry`。
 
@@ -130,7 +130,7 @@ static class ThreadLocalMap {
 }
 ```
 
-# `InheritableThreadLocal`
+## `InheritableThreadLocal`
 
 ```java
 public class InheritableThreadLocal<T> extends ThreadLocal<T>

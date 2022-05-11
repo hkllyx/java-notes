@@ -476,24 +476,24 @@ public final void setDaemon(boolean on) {
 ### 线程通信与协作
 
 - 等待/通知
-    - `java.lang.Object`的`wait/notify/notifyAll`方法
-    - `java.lang.Thread`类`join`方法
-    - `java.util.concurrent.locks.Condition`的`await/signal/signalAll`方法
-    - `java.util.concurrent.locks.LockSupport`的`park/parkNanos/parkUntil/unpark`方法
+  - `java.lang.Object`的`wait/notify/notifyAll`方法
+  - `java.lang.Thread`类`join`方法
+  - `java.util.concurrent.locks.Condition`的`await/signal/signalAll`方法
+  - `java.util.concurrent.locks.LockSupport`的`park/parkNanos/parkUntil/unpark`方法
 
 - 共享内存
-    - `volatile`
-    - `final`
+  - `volatile`
+  - `final`
 
 - 管道通信
-    - `PipedInputStream/PipedOutputStream`
-    - `PipedReader/PipedWriter`
+  - `PipedInputStream/PipedOutputStream`
+  - `PipedReader/PipedWriter`
 
 - JUC工具
-    - `CountDownLatch`
-    - `CycleBarrier`
-    - `Semaphore`
-    - `Exchanger`
+  - `CountDownLatch`
+  - `CycleBarrier`
+  - `Semaphore`
+  - `Exchanger`
 
 ### 使用多线程可能带来的问题
 

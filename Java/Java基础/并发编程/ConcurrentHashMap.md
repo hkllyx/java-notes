@@ -608,31 +608,3 @@ public boolean retainAll(Collection<?> c) {
     }
 }
 ```
-
-# `CopyOnWriteArraySet`
-
-```java
-public class CopyOnWriteArraySet<E> extends AbstractSet<E>
-        implements java.io.Serializable {
-    private static final long serialVersionUID = 5457747651344034263L;
-
-    private final CopyOnWriteArrayList<E> al;
-
-    ...
-}
-```
-
-- 继承自`AbstractSet`：支持集操作
-- 内部使用`CopyOnWriteArrayList`保存元素
-
-# `CopyOnWriteArrayList`优缺点
-
-## 优点
-
-- 线程安全：写的时候加互斥锁
-- 适合读多写少的并发场景。比如白名单，黑名单等场景
-
-## 缺点
-
-- 数据一致性：读写分离，读到的数据可能是旧数据（脏读）
-- 内存占用：写操作复制数组，内存消耗较大
