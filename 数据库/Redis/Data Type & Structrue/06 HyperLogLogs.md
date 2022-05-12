@@ -70,8 +70,8 @@ PFCOUNT key [key ...]
 - 当参数为一个key时，返回存储在HyperLogLog结构体的该变量的近似基数，如果该变量不存在，则返回0。
 - 当参数为多个key时，返回这些HyperLogLog并集的近似基数，这个值是将所给定的所有key的HyperLoglog结构合并到一个临时的HyperLogLog结构中计算而得到的。
 - HyperLogLog可以使用固定且很少的内存（每个HyperLogLog结构需要12K字节再加上key本身的几个字节）来存储集合的唯一元素。
-- 返回的可见集合基数并不是精确值， 而是一个带有0.81% 标准错误（standard error）的近似值。
-- 例如为了记录一天会执行多少次各不相同的搜索查询， 一个程序可以在每次执行搜索查询时调用一次`PFADD`， 并通过调用 `PFCOUNT`命令来获取这个记录的近似结果。
+- 返回的可见集合基数并不是精确值，而是一个带有0.81% 标准错误（standard error）的近似值。
+- 例如为了记录一天会执行多少次各不相同的搜索查询，一个程序可以在每次执行搜索查询时调用一次`PFADD`，并通过调用 `PFCOUNT`命令来获取这个记录的近似结果。
 - 注意：这个命令的一个副作用是可能会导致HyperLogLog内部被更改，出于缓存的目的，它会用8字节的来记录最近一次计算得到基数，**所以`PFCOUNT`命令在技术上是个写命令**。
 
 ## PFMERGE
@@ -80,4 +80,4 @@ PFCOUNT key [key ...]
 PFMERGE destkey sourcekey [sourcekey ...]
 ```
 - 将多个HyperLogLog合并（merge）为一个HyperLogLog，合并后的HyperLogLog的基数接近于所有输入HyperLogLog的可见集合（observed set）的并集。
-- 合并得出的HyperLogLog会被储存在目标变量（第一个参数）里面， 如果该键并不存在， 那么命令在执行之前， 会先为该键创建一个空的。
+- 合并得出的HyperLogLog会被储存在目标变量（第一个参数）里面，如果该键并不存在，那么命令在执行之前，会先为该键创建一个空的。

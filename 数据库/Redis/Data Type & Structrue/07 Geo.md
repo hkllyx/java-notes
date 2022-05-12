@@ -33,7 +33,7 @@ GEOADD key longitude latitude member [longitude latitude member ...]
 GEODIST key member1 member2 [unit]
 ```
 - 返回两个给定位置之间的距离。
-- 如果两个位置之间的其中一个不存在， 那么命令返回空值。
+- 如果两个位置之间的其中一个不存在，那么命令返回空值。
 - 指定单位的参数unit必须是以下单位的其中一个：
 
     | 单位 | 说明         |
@@ -42,7 +42,7 @@ GEODIST key member1 member2 [unit]
     | km   | 千米         |
     | mi   | 英里         |
     | ft   | 英尺         |
-- 如果用户没有显式地指定单位参数， 那么GEODIST默认使用米作为单位。
+- 如果用户没有显式地指定单位参数，那么GEODIST默认使用米作为单位。
 - `GEODIST` 命令在计算距离时会假设地球为完美的球形，在极限情况下，这一假设最大会造成0.5% 的误差。
 
 ## GEOHASH
@@ -86,8 +86,8 @@ GEORADIUS key longitude latitude radius m|km|ft|mi
     | 选项 | 说明                                            |
     | ---- | ----------------------------------------------- |
     | 省缺 | 未排序                                          |
-    | ASC  | 根据中心的位置， 按照从近到远的方式返回位置元素 |
-    | DESC | 根据中心的位置， 按照从远到近的方式返回位置元素 |
+    | ASC  | 根据中心的位置，按照从近到远的方式返回位置元素 |
+    | DESC | 根据中心的位置，按照从远到近的方式返回位置元素 |
 - STORE和STOREDIST将返回值保持到Sorted Set中，分别以同WITHHASH和WITHDIST返回的额外值作为Score。
 - 注意WITHDIST等返回额外信息的选项不可以和STORE，STOREDIST共用。
 
@@ -97,4 +97,4 @@ GEORADIUSBYMEMBER key member radius m|km|ft|mi
     [ASC|DESC] [STORE key] [STOREDIST key]
 ```
 - 这个命令和`GEORADIUS`命令一样，都可以找出位于指定范围内的元素
-- 但是中心点是由给定的元素决定的， 而不是使用输入的经度和纬度来决定中心点
+- 但是中心点是由给定的元素决定的，而不是使用输入的经度和纬度来决定中心点
