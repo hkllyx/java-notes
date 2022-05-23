@@ -1,6 +1,6 @@
 # JSP表达式语言
 
-EL全名为Expression Language，它主要用于替换JSP页面中的脚本表达式`<%= expresseion %>`，从各种类型的Web域中检索Java对象、获取数据。它可以很方便地访问Java Bean属性、数组、`List`、`Map`等。
+EL全名为Expression Language，它主要用于替换JSP页面中的脚本表达式`<%= expression %>`，从各种类型的Web域中检索Java对象、获取数据。它可以很方便地访问Java Bean属性、数组、`List`、`Map`等。
 
 EL表达式借鉴了JavaScript多类型转换无关性的特点，在使用EL从scope中得到参数时可以自动转换类型，因此对于类型的限制更加宽松。
 
@@ -45,7 +45,7 @@ expression可以是字符串、整形、浮点型、布尔型等常量，也可�
 | 隐式对象         | 说明                                                                                                                   |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | pageScope        | 代表page域，可以用来获取page域中的属性                                                                                 |
-| reqeustScope     | 代表reqeust域，可以用来获取reqeust域中的属性                                                                           |
+| requestScope     | 代表request域，可以用来获取request域中的属性                                                                           |
 | sessionScope     | 代表session域，可以用来获取session域中的属性                                                                           |
 | applicationScope | 代表application域，可以用来获取application域中的属性                                                                   |
 | pageContext      | 代表`pageContext`对象，注意和pageScope进行区分                                                                         |
