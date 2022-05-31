@@ -14,6 +14,24 @@ Redis的key是二进制安全的字符串（详见String数据类型），这意
 
 ## 相关命令
 
+### `KEYS`
+
+```redis
+KEYS pattern
+```
+
+查找所有符合给定模式pattern（通配模板）的key。时间复杂度为O(N)，N为数据库里面key的数量。
+
+`KEYS`的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，如果你需要从一个数据集中查找特定的Key集，你最好还是用`SETS`来代替。
+
+pattern支持的格式：
+
+- `?`：匹配任意字符一次
+- `*`：匹配任意字符任意次
+- `[abc]`：匹配'a'、'b'、c'中任一个一次
+- `[^a]`：匹配'a'之外的任意字符一次
+- `[a-c]`：匹配'a'到'c' 中任一个一次
+
 ### `SCAN`
 
 ```redis
@@ -26,42 +44,22 @@ SCAN cursor [MATCH pattern] [COUNT count]
 
 - `SSCAN`：用于扫描value数据类型为Set的key集
 - `HSCAN`：用于扫描value数据类型为Hash的key集
-- `ZSCAN`：用于扫描value数据类型为Zset的key集
+- `ZSCAN`：用于扫描value数据类型为ZSet的key集
 
 `SCAN`命令是一个基于游标的迭代器。这意味着命令每次被调用都需要使用上一次这个调用返回的游标作为该次调用的游标参数，以此来延续之前的迭代过程。当`SCAN`命令的游标参数被设置为0时，服务器将开始一次新的迭代，而当服务器向用户返回值为0的游标时，表示迭代已结束。
 
 `SCAN`命令的返回值是一个包含两个元素的数组，第一个数组元素是用于进行下一次迭代的新游标，而第二个数组元素则是一个数组，这个数组中包含了所有被迭代的元素。
 
-对于增量式迭代命令不保证每次迭代所返回的元素数量，我们可以使用COUNT选项，对命令的行为进行一定程度上的调整。默认值为10。
-
-### `KEYS`
-
-```redis
-KEYS pattern
-```
-
-查找所有符合给定模式pattern（通配模板）的key。时间复杂度为O(N)，N为数据库里面key的数量。
-
-`KEYS` 的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，如果你需要从一个数据集中查找特定的Key集，你最好还是用`SETS`来代替。
-
-pattern支持的格式：
-
-- `?`：匹配任意字符一次
-- `*`：匹配任意字符任意次
-- `[abc]`：匹配 'a'、'b'、c'中任一个一次
-- `[^a]`：匹配'a'之外的任意字符一次
-- `[a-c]`：匹配'a'到'c' 中任一个一次
+对于增量式迭代命令不保证每次迭代所返回的元素数量，我们可以使用`COUNT`选项，对命令的行为进行一定程度上的调整。默认值为10。
 
 ### `RENAME`、`RENAMENX`
 
 ```redis
-RENAME key newkey
-RENAMENX key newkey
+RENAME key new-key
+RENAMENX key new-key
 ```
 
-将key重命名为newkey，如果key与newkey相同，将返回一个错误。
-
-如果newkey已经存在，对于`RENAME`newkey的value将被覆盖；对于`RENAMENX`则会忽略（NX表示not exists，新key不存在才会重命名）。
+将key重命名为new-key。如果key与new-key相同，将返回一个错误。如果new-key已经存在，对于`RENAME`，new-key的value将被覆盖；对于`RENAMENX`则会忽略（NX表示not exists，新key不存在才会重命名）。
 
 ### `TYPE`
 
@@ -69,9 +67,7 @@ RENAMENX key newkey
 TYPE key
 ```
 
-返回key所存储的value的数据结构类型。它可以返回string、list、set、zset和hash等不同的类型。
-
-如果key不存在时返回none。
+返回key所存储的value的数据结构类型。它可以返回string、list、set、zset和hash等不同的类型。如果key不存在时返回none。
 
 ### `DEL`
 
@@ -87,7 +83,7 @@ DEL key [key ...]
 UNLINK key [key ...]
 ```
 
-该命令和`DEL`十分相似：删除指定的key(s)，若key不存在则该key被跳过。
+该命令和`DEL`十分相似：删除指定的keys，若key不存在则该key被跳过。
 
 但是，相比`DEL`会产生阻塞，该命令会在另一个线程中回收内存，因此它是非阻塞的。这也是该命令名字的由来：仅将keys从keyspace元数据中删除，真正的删除会在后续异步操作。
 
@@ -130,8 +126,7 @@ TTL key
 PTTL key
 ```
 
-返回key剩余的过期时间。这种反射能力允许Redis客户端检查指定key在数据集里面剩余的有效期。在
-Redis 2.6和之前版本，如果key不存在或者已过期时返回-1。
+返回key剩余的过期时间。这种反射能力允许Redis客户端检查指定key在数据集里面剩余的有效期。在Redis 2.6和之前版本，如果key不存在或者已过期时返回-1。
 
 从Redis2.8开始，错误返回值的结果有如下改变：
 
@@ -163,7 +158,7 @@ DUMP key
 
 序列化的值不包括任何生存时间信息。
 
-如果key不存在，那么返回nil。
+如果key不存在，那么返回`nil`。
 
 ### `RESTORE`
 
@@ -240,11 +235,11 @@ SORT key [BY pattern] [LIMIT offset count] [GET pattern] [ASC|DESC] [ALPHA] dest
 
 默认是按照数值类型排序的，并且按照两个元素的双精度浮点数类型值进行比较。
 
-包含的是字符串值并且需要按照字典顺序排序，可以使用ALPHA修饰符。假设正确地设置了环境变量LC_COLLATE，Redis可以感知UTF-8编码。
+可以使用`ALPHA`选项让值按照字典顺序排序。假设正确地设置了环境变量LC_COLLATE，Redis可以感知UTF-8编码。
 
-可以使用ASC和DESC控制排序方向，默认为ASC。
+可以使用`ASC`和`DESC`控制排序方向，默认为`ASC`。
 
-返回元素的数量可以通过LIMIT修饰符限制。此修饰符有一个offset参数，指定了跳过的元素数量；还带有一个count参数，指定了从offset开始返回的元素数量。
+返回元素的数量可以通过`LIMIT`修饰符限制。此修饰符有一个offset参数，指定了跳过的元素数量；还带有一个count参数，指定了从offset开始返回的元素数量。
 
 详见[sort命令](http://redis.cn/commands/sort.html)
 
@@ -254,15 +249,17 @@ SORT key [BY pattern] [LIMIT offset count] [GET pattern] [ASC|DESC] [ALPHA] dest
 OBJECT <subcommand> [arg [arg ...]]
 ```
 
-`OBJECT` 命令可以在内部调试（debugging）给出keys的内部对象，它用于检查或者了解你的keys是否用到了特殊编码的数据类型来存储。
+`OBJECT`命令可以在内部调试（debugging）给出keys的内部对象，它用于检查或者了解你的keys是否用到了特殊编码的数据类型来存储。
 
-当redis作为缓存使用的时候，你的应用也可能用到这些由`OBJECT`命令提供的信息来决定应用层的key的驱逐策略（eviction policies）
+当redis作为缓存使用的时候，你的应用也可能用到这些由`OBJECT`命令提供的信息来决定应用层的key的驱逐策略（eviction policies）。
 
-OBJECT支持多个子命令:
+#### `OBJECT REFCOUNT`
 
-- `OBJECT REFCOUNT`：该命令主要用于调试（debugging），它能够返回指定key所对应value被引用的次数
-- `OBJECT ENCODING`：该命令返回指定key对应value所使用的内部表示（representation，也可以理解为数据的压缩方式）
-- `OBJECT IDLETIME`：该命令返回指定key对应的value自被存储之后空闲的时间，以秒为单位（没有读写操作的请求），这个值返回以10秒为单位的秒级别时间，这一点可能在以后的实现中改善
+该命令主要用于调试（debugging），它能够返回指定key所对应value被引用的次数。
+
+#### `OBJECT ENCODING`
+
+该命令返回指定key对应value所使用的内部表示（representation，也可以理解为数据的压缩方式）。
 
 对象可以用多种方式编码:
 
@@ -273,6 +270,10 @@ OBJECT支持多个子命令:
 - 有序集合被编码为ziplist或者skiplist格式。ziplist可以表示较小的有序集合，skiplist表示任意大小多的有序集合
 
 一旦你做了一个操作让redis无法再使用那些节省空间的编码方式，它将自动将那些特殊的编码类型转换为普通的编码类型
+
+#### `OBJECT IDLETIME`
+
+该命令返回指定key对应的value自被存储之后空闲的时间，以秒为单位（没有读写操作的请求），这个值返回以10秒为单位的秒级别时间，这一点可能在以后的实现中改善。
 
 ### `WAIT`
 
@@ -291,13 +292,13 @@ WAIT replicas_num timeout
 - 如果timeout是0那意味着永远阻塞。
 - 由于`WAIT`返回的是在失败和成功的情况下的slaves的数量。客户端应该检查返回的slaves的数量是等于或更大的复制水平。
 
-一致性（Consistency and WAIT）
+一致性：
 
-- `WAIT` 不能保证Redis强一致：尽管同步复制是复制状态机的一个部分，但是还需要其他条件。不过，在sentinel和Redis群集故障转移中，WAIT能够增强数据的安全性。
+- `WAIT` 不能保证Redis强一致：尽管同步复制是复制状态机的一个部分，但是还需要其他条件。不过，在sentinel和Redis群集故障转移中，`WAIT`能够增强数据的安全性。
 - 如果写操作已经被传送给一个或多个slave节点，当master发生故障我们极大概率（不保证100%）提升一个受到写命令的slave节点为master: 不管是Sentinel还是Redis Cluster都会尝试选slave节点中最优（日志最新）的节点，提升为master。
 - 尽管是选择最优节点，但是仍然会有丢失一个同步写操作可能行。
 
-实现细节
+实现细节：
 
 - 因为引入了部分同步，Redis slave节点在ping主节点时会携带已经处理的复制偏移量。这被用在多个地方：
   - 检测超时的slaves

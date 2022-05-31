@@ -43,7 +43,7 @@ RPUSHX key value
 ### `LINSERT`
 
 ```redis
-LINSERT key BEFORE|AFTER pivot value
+LINSERT key BEFORE | AFTER pivot value
 ```
 
 把值插入到key对应的列表中基准元素pivot（pivot是列表中的元素）的前面或后面。
@@ -158,4 +158,4 @@ LRANGE key start stop
 
 start和end偏移量都是基于0的下标，即列表的第一个元素下标是0（头），第二个元素下标是1，以此类推。偏移量也可以是负数，表示偏移量是从尾部开始计数。例如，-1表示列表的最后一个元素，-2是倒数第二个，以此类推。
 
-当下标超过列表范围的时候不会产生错误。如果start比list的尾部下标大的时候，会返回一个空列表。如果stop比列表的长度大的时候，Redis会当它是为不元素的下标。
+当下标超过列表范围的时候不会产生错误。如果start比List的尾部下标大的时候，会返回一个空列表。如果stop比列表的长度大的时候，Redis会当它是为不元素的下标。

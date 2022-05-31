@@ -37,9 +37,7 @@ GEOHASH key member [member ...]
 
 通常，Redis使用Geohash技术（52位整数编码）的变体来表示元素的位置。由于编码和解码过程中所使用的初始最小和最大坐标不同，编码也不同于标准。
 
-命令将返回11个字符长度的Geohash字符串，相比于使用52位整数编码它没有精度损失。
-
-返回的Geohashes具有以下特性：
+命令将返回11个字符长度的Geohash字符串，相比于使用52位整数编码它没有精度损失。返回的Geohashes具有以下特性：
 
 - 可以从尾部缩短字符串，它将失去精度，但仍将指向同一地区
 - 类似前缀的Geohash字符串是相近的，但相近位置的Geohash字符串前缀不一定类似
@@ -70,15 +68,15 @@ GEODIST key member1 member2 [unit]
 | ---- | ------------ |
 | m    | 米，省缺单位 |
 | km   | 千米         |
-| mi   | 英里         |
 | ft   | 英尺         |
+| mi   | 英里         |
 
 注意：`GEODIST`命令在计算距离时会假设地球为完美的球形，在极限情况下，这一假设最大会造成0.5%的误差。
 
 ### `GEORADIUS`、`GEORADIUSBYMEMBER`
 
 ```redis
-GEORADIUS key longitude latitude radius m|km|ft|mi
+GEORADIUS key longitude latitude radius m | km | ft | mi
     [WITHCOORD] [WITHDIST] [WITHHASH]
     [COUNT count]
     [ASC|DESC]
@@ -91,23 +89,25 @@ GEORADIUS key longitude latitude radius m|km|ft|mi
 
 | 选项      | 说明                                                                      |
 | --------- | ------------------------------------------------------------------------- |
-| WITHDIST  | 将位置元素与中心之间的距离也一并返回，单位和给定范围单位相同              |
-| WITHCOORD | 将位置元素的经度和维度也一并返回                                          |
-| WITHHASH  | 返回52位无符号整数形式的Geohash，主要用于底层应用或者调试，实际中作用不大 |
+| `WITHDIST`  | 将位置元素与中心之间的距离也一并返回，单位和给定范围单位相同              |
+| `WITHCOORD` | 将位置元素的经度和维度也一并返回                                          |
+| `WITHHASH`  | 返回52位无符号整数形式的Geohash，主要用于底层应用或者调试，实际中作用不大 |
 
-在默认情况下，`GEORADIUS`命令会返回所有匹配的位置元素。虽然用户可以使用COUNT选项去获取前N个匹配元素，但是因为命令在内部可能会需要对所有被匹配的元素进行处理，所以在对一个非常大的区域进行搜索时，即使只使用COUNT选项去获取少量元素，命令的执行速度也可能会非常慢。但是从另一方面来说，使用COUNT选项去减少需要返回的元素数量，对于减少带宽来说仍然是非常有用的。
+在默认情况下，`GEORADIUS`命令会返回所有匹配的位置元素。虽然用户可以使用`COUNT`选项去获取前N个匹配元素，但是因为命令在内部可能会需要对所有被匹配的元素进行处理，所以在对一个非常大的区域进行搜索时，即使只使用`COUNT`选项去获取少量元素，命令的执行速度也可能会非常慢。
+
+但是从另一方面来说，使用`COUNT`选项去减少需要返回的元素数量，对于减少带宽来说仍然是非常有用的。
 
 命令默认返回未排序的位置元素。通过以下两个参数，用户可以指定被返回位置元素的排序方式：
 
 | 选项 | 说明                                           |
 | ---- | ---------------------------------------------- |
-| 省缺 | 未排序                                         |
-| ASC  | 根据中心的位置，按照从近到远的方式返回位置元素 |
-| DESC | 根据中心的位置，按照从远到近的方式返回位置元素 |
+| 省缺   | 未排序                                         |
+| `ASC`  | 根据中心的位置，按照从近到远的方式返回位置元素 |
+| `DESC` | 根据中心的位置，按照从远到近的方式返回位置元素 |
 
-STORE和STOREDIST将返回值保持到有序集合（ZSet）中，分别以同WITHHASH和WITHDIST返回的额外值作为分数。
+`STORE`和`STOREDIST`将返回值保持到有序集合（ZSet）中，分别以同`WITHHASH`和`WITHDIST`返回的额外值作为分数。
 
-注意：WITHDIST等返回额外信息的选项不可以和STORE，STOREDIST共用。
+注意：`WITHDIST`等返回额外信息的选项不可以和`STORE`，`STOREDIST`共用。
 
 ```redis
 GEORADIUSBYMEMBER key member radius m|km|ft|mi
@@ -123,13 +123,13 @@ GEORADIUSBYMEMBER key member radius m|km|ft|mi
 
 ```redis
 GEOSEARCH key FROMMEMBER member | FROMLONLAT longitude latitude
-    BYRADIUS radius m|km|ft|mi | BYBOX width height m|km|ft|mi
+    BYRADIUS radius m | km | ft | mi | BYBOX width height m|km|ft|mi
     [ASC | DESC]
     [ COUNT count [ANY]]
     [WITHCOORD] [WITHDIST] [WITHHASH]
 
 GEOSEARCHSTORE destination source FROMMEMBER member | FROMLONLAT longitude latitude
-    BYRADIUS radius m|km|ft|mi | BYBOX width height m|km|ft|mi
+    BYRADIUS radius m|km|ft|mi | BYBOX width height m | km | ft | mi
     [ASC | DESC]
     [ COUNT count [ANY]]
     [STOREDIST]
@@ -137,16 +137,16 @@ GEOSEARCHSTORE destination source FROMMEMBER member | FROMLONLAT longitude latit
 
 用于查找指定形状（圆形/方形）区域内的坐标。
 
-参考坐标选择：
+中心点选择：
 
-- FROMMEMBER：指定Geo内的某个元素为参考坐标
-- FROMLONLAT：指定经纬度为参考坐标
+- `FROMMEMBER`：指定Geo内的某个元素为中心点
+- `FROMLONLAT`：指定经纬度为中心点
 
 查找区域形状：
 
-- BYRADIUS：类似`GEORADIUS`，以参考坐标为中心，指定半径内查找
-- BYBOX：以参考坐标为中心的对称矩形，即在横坐标距离参考坐标小于width，纵坐标距离参考坐标小于height
+- `BYRADIUS`：类似`GEORADIUS`，指定半径内查找
+- `BYBOX`：对称矩形，即在横坐标距离中心点小于width，纵坐标距离中心点小于height
 
-COUNT选项同`GEORADIUS`，返回前指定个坐标，但加上ANY后，会尽快得返回符合条件的坐标，这些坐标距离参考坐标的距离不一定是最近的几个。ANY省区了查找全部符合条件坐标后再排序的过程，可以大大提高查询效率。
+COUNT选项同`GEORADIUS`，返回前指定个坐标，但加上`ANY`后，会尽快得返回符合条件的坐标，这些坐标距离中心点的距离不一定是最近的几个。`ANY`省区了查找全部符合条件坐标后再排序的过程，可以大大提高查询效率。
 
-使用`GEOSEARCHSTORE`是添加STOREDIST选项将返回坐标到参考坐标的距离，单位是命令指定的单位，然后存储到有序集合中。
+使用`GEOSEARCHSTORE`是添加`STOREDIST`选项将返回坐标到中心点的距离，单位是命令指定的单位，然后存储到有序集合中。

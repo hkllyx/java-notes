@@ -32,10 +32,10 @@ SET key value [EX seconds] [PX milliseconds] [NX|XX]
 
 | 选项            | 说明                                   | 相关命令 |
 | --------------- | -------------------------------------- | -------- |
-| EX seconds      | 设置key的过期时间，单位时秒          | `SETEX`  |
-| PX milliseconds | 设置key的过期时间，单位时毫秒        | `PSETEX` |
-| NX              | 只有key不存在的时候才会设置key的值 | `SETNX`  |
-| XX              | 只有key存在的时候才会设置key的值   |          |
+| `EX seconds`      | 设置key的过期时间，单位时秒          | `SETEX`  |
+| `PX milliseconds` | 设置key的过期时间，单位时毫秒        | `PSETEX` |
+| `NX`              | 只有key不存在的时候才会设置key的值 | `SETNX`  |
+| `XX`              | 只有key存在的时候才会设置key的值   |          |
 
 ```redis
 SETNX key value

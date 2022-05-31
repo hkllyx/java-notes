@@ -2,7 +2,7 @@
 
 Redis有序集合和Redis集合类似，是不包含相同字符串的合集。它们的差别是，每个有序集合的元素都关联着一个评分（score），这个评分用于把有序集合中的成员按最低分到最高分排列。
 
-使用有序集合，你可以非常快地（O(log（N）)）完成添加，删除和更新元素的操作。因为元素是在插入时就排好序的，所以很快地通过评分（score）或者位次（position）获得一个范围的元素。
+使用有序集合，你可以非常快地（O(log(N))）完成添加，删除和更新元素的操作。因为元素是在插入时就排好序的，所以很快地通过评分（score）或者位次（position）获得一个范围的元素。
 
 访问有序集合的中间元素同样也是非常快的，因此你可以使用有序集合作为一个没用重复成员的智能列表。在这个列表中，你可以轻易地访问任何你需要的东西：
 
@@ -27,7 +27,7 @@ ZADD key [NX|XX] [CH] [INCR] score member [score member ...]
 
 将所有指定分数/元素对添加到key对应的有序集合里面。
 
-如果指定添加的成员已经是有序集合里面的成员，则会更新改成员的分数（scrore）并更新到正确的排序位置。
+如果指定添加的成员已经是有序集合里面的成员，则会更新改成员的分数并更新到正确的排序位置。
 
 如果key不存在，将会创建一个新的有序集合并将添加，就像原来存在一个空的有序集合一样。如果key存在，但是类型不是有序集合，将会返回一个错误应答。
 
@@ -40,7 +40,7 @@ ZADD key [NX|XX] [CH] [INCR] score member [score member ...]
 | XX   | 仅更新存在的成员，不添加新成员                          |
 | NX   | 不更新存在的成员，只添加新成员                          |
 | CH   | changed，修改返回值为发生变化的成员总数，不包括分数更新 |
-| INCR | 类似`ZINCRBY`命令，对成员的分数进行增加操作           |
+| INCR | 类似`ZINCRBY`命令，对成员的分数进行增加操作             |
 
 ### `ZINCRBY`
 
@@ -198,24 +198,28 @@ ZREMRANGEBYRANK key start stop
 ### `ZUNIONSTORE`、`ZINTERSTORE`
 
 ```redis
-ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight] [SUM|MIN|MAX]
+ZUNIONSTORE destination num-keys key [key ...]
+    [WEIGHTS weight]
+    [SUM | MIN | MAX]
 ```
 
-计算给定的numkeys个有序集合的并集，并且把结果放到destination中。
+计算给定的num-keys个有序集合的并集，并且把结果放到destination中。
 
-在给定要计算的key和其它参数之前，必须先给定key个数（numberkeys）。默认情况下，结果集中某个元素的分数是所有给定集中相同元素分数之和。
+在给定要计算的key和其它参数之前，必须先给定key个数（num-keys）。默认情况下，结果集中某个元素的分数是所有给定集中相同元素分数之和。
 
-使用WEIGHTS选项，你可以为每个给定的有序集指定一个乘法因子，意思就是每个给定有序集的所有元素的分数在传递给聚合函数之前都要先乘以该因子。如果WEIGHTS没有给定，默认就是1。
+使用`WEIGHTS`选项，你可以为每个给定的有序集指定一个乘法因子，意思就是每个给定有序集的所有元素的分数在传递给聚合函数之前都要先乘以该因子。如果`WEIGHTS`没有给定，默认就是1。
 
-使用AGGREGATE选项，你可以指定并集的结果集的聚合方式。
+使用聚合选项，可以指定并集的结果集的聚合方式。
 
-- 默认使用的参数SUM，将所有集合中某个元素分数之和作为结果集中该元素的分数。
-- 如果使用参数MIN或者MAX，将所有集合中某个元素的最高/最低分数作为结果集中该元素的分数。
+- 默认使用`SUM`，将所有集合中某个元素分数之和作为结果集中该元素的分数。
+- 如果使用`MIN`或者`MAX`，将所有集合中某个元素的最高/最低分数作为结果集中该元素的分数。
 
 如果destination已存在会被覆盖。
 
 ```redis
-ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight] [SUM|MIN|MAX]
+ZINTERSTORE destination numkeys key [key ...]
+    [WEIGHTS weight]
+    [SUM | MIN | MAX]
 ```
 
 类似`ZUNIONSTORE`，不同之处时计算所有给定有序集合的交集。

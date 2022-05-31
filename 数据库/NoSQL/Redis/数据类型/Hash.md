@@ -65,7 +65,7 @@ HMGET key field [field ...]
 
 `HGET`的批量形式。
 
-对于Hash中不存在的每个字段，返回`nil`值。因为不存在的keys被认为是一个空的Hash，对一个不存在的key执行`HMGET`将返回一个只含有nil值的列表
+对于Hash中不存在的每个字段，返回`nil`值。因为不存在的keys被认为是一个空的Hash，对一个不存在的key执行`HMGET`将返回一个只含有`nil`值的列表
 
 ```redis
 HGETALL key
